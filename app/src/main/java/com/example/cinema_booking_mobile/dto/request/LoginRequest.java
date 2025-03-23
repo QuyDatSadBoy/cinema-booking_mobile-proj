@@ -1,12 +1,12 @@
 package com.example.cinema_booking_mobile.dto.request;
 
 public class LoginRequest {
-    private String username;
+    private String email;
     private String password;
 
-    public LoginRequest(String password, String username) {
+    public LoginRequest( String email,String password) {
         this.password = password;
-        this.username = username;
+        this.email = email;
     }
 
     public String getPassword() {
@@ -17,11 +17,11 @@ public class LoginRequest {
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String username) {
+        this.email = username;
     }
 }
