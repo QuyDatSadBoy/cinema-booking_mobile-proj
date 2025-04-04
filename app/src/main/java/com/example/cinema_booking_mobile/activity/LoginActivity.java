@@ -47,9 +47,9 @@ public class LoginActivity extends AppCompatActivity {
         authService = ApiUtils.getAuthService();
         sessionManager = new SessionManager(this);
 
-        if (sessionManager.isLoggedIn()) {
-            navigateToMainActivity();
-        }
+//        if (sessionManager.isLoggedIn()) {
+//            navigateToMainActivity();
+//        }
 
         btnLogin.setOnClickListener(v -> {
             String email = etEmail.getText().toString().trim();
