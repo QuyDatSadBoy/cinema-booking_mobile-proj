@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#8BCBC8</color>
+    <color name="colorAccent">#8BCBC8</color>
+    <color name="colorTextNormal">#757575</color>
+    <color name="colorTextSelected">#FFFFFF</color>
+    <color name="colorTimeTextSelected">#8BCBC8</color>
+    <color name="colorTextLight">#FFFFFF</color>
+    <color name="colorBackground">#EBEFF0</color>
+    <color name="colorTextDateSelected">#3F5C5B</color>
+    <color name="colorButton">#669593</color>
 </resources>

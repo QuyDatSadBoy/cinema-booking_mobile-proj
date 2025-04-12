@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="10dp"
+    android:layout_marginRight="10dp"
+    android:id="@+id/day"
+    android:background="@drawable/date_circle_selector">
+
+    <TextView
+        android:id="@+id/tvDayName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="@drawable/day_name_text_color_selector"
+        android:layout_marginTop="4dp"
+        tools:text="Sat"
+        />
+
+    <TextView
+        android:id="@+id/tvDayNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textStyle="bold"
+        android:textColor="@drawable/day_number_text_color_selector"
+        android:textSize="16sp"
+        android:gravity="center"
+        tools:text="18"
+         />
+
+</LinearLayout>
