@@ -12,6 +12,7 @@ public class SessionManager {
     private static final String KEY_USER_EMAIL = "userEmail";
     private static final String KEY_USER_NAME = "userName";
     private static final String KEY_USER_ROLE = "userRole";
+    private static final String KEY_USER_AVATAR = "userAvatar";
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -68,6 +69,10 @@ public class SessionManager {
 
     public String getAuthorizationHeader() {
         return "Bearer " + getToken();
+    }
+
+    public String getUserAvatar() {
+        return sharedPreferences.getString(KEY_USER_AVATAR, null);
     }
 
     public void clearSession() {

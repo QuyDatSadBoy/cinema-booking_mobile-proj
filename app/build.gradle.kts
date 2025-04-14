@@ -63,4 +63,6 @@ dependencies {
 // RxJava
     implementation(libs.rxjava)
     implementation(libs.rxandroid)
+
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 }
