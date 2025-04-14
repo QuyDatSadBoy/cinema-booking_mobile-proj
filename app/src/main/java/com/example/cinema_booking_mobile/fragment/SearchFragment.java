@@ -14,13 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cinema_booking_mobile.R;
+import com.example.cinema_booking_mobile.adapter.OnItemClickListener;
 import com.example.cinema_booking_mobile.model.Phim;
 import com.example.cinema_booking_mobile.adapter.PhimTimKiemAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchFragment extends Fragment implements PhimTimKiemAdapter.PhimTimKiemListener {
+public class SearchFragment extends Fragment implements OnItemClickListener.PhimTimKiemListener {
     SearchView search;
     RecyclerView phimTimKiem;
 

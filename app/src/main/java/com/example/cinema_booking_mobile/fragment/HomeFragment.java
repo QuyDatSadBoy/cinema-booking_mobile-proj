@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cinema_booking_mobile.R;
+import com.example.cinema_booking_mobile.adapter.OnItemClickListener;
 import com.example.cinema_booking_mobile.model.Phim;
 import com.example.cinema_booking_mobile.adapter.PhimDangChieuAdapter;
 import com.example.cinema_booking_mobile.adapter.PhimSapChieuAdapter;
@@ -23,8 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements
-        PhimSapChieuAdapter.PhimSapChieuListener,
-        PhimDangChieuAdapter.PhimDangChieuListener {
+        OnItemClickListener.PhimSapChieuListener,
+        OnItemClickListener.PhimDangChieuListener {
     RecyclerView phimSapChieu, phimDangChieu;
 
     @Nullable
