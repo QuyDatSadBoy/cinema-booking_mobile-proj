@@ -1,15 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/mHome"
-        android:icon="@drawable/icon_1"
+        android:icon="@drawable/outline_home_24"
         android:title="Trang chủ" />
     <item
         android:id="@+id/mSearch"
-        android:icon="@drawable/icon_1"
+        android:icon="@drawable/baseline_manage_search_24"
         android:title="Tìm kiếm" />
 
     <item
         android:id="@+id/mAccount"
-        android:icon="@drawable/icon_1"
+        android:icon="@drawable/outline_account_circle_24"
         android:title="Trang cá nhân" />
 </menu>

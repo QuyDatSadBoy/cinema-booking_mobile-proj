@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="true"
@@ -25,7 +24,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-
         </activity>
     </application>
 

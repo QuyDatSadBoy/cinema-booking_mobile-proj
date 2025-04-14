@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/poster"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/poster" />
+        <LinearLayout
+            android:layout_marginStart="8dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="10dp">
+                <TextView
+                    android:id="@+id/tenPhim"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:maxWidth="155dp"
+                    android:text="Cuốn theo chiều gió đồng năm ấy còn mãi tôi"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"/>
+                <Button
+                    android:id="@+id/doTuoi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="13+"
+                    android:textSize="18dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/bg_age"/>
+            </LinearLayout>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/theLoai"
+                android:text="Thể loại: Lãng mạn" />
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/doDai"
+                android:text="Thời lượng: 165 phút" />
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/daoDien"
+                android:text="Đạo diễn: Jonh Lenon" />
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/trangThai"
+                android:text="Trạng thái: Sắp chiếu" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
