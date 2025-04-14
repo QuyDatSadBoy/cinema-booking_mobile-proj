@@ -18,7 +18,7 @@
             android:layout_width="70dp"
             android:layout_height="90dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/movie_poster_placeholder"
+            android:src="@drawable/poster"
             android:contentDescription="Movie Poster" />
 
         <LinearLayout
