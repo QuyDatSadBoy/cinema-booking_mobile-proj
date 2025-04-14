@@ -31,4 +31,5 @@
     <string name="register_button">Đăng ký</string>
     <string name="already_account">Bạn đã có tài khoản?</string>
     <string name="login_text">Đăng nhập</string>
+
 </resources>
