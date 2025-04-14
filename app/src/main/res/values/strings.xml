@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">cinema_booking_mobile</string>
+    <!-- Login Activity Strings -->
+    <string name="back_button">Quay lại</string>
+    <string name="login_title">Xin chào</string>
+    <string name="login_subtitle">Đăng nhập bằng tài khoản của bạn</string>
+    <string name="email_address">Địa chỉ email</string>
+    <string name="email_hint">helloteja@gmail.com</string>
+    <string name="password">Mật khẩu</string>
+    <string name="password_hint">••••••••••••</string>
+    <string name="toggle_password_visibility">Hiển thị/Ẩn mật khẩu</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+    <string name="login_button">Đăng nhập</string>
+    <string name="no_account">Bạn chưa có tài khoản?</string>
+    <string name="signup">Tham gia</string>
+    <string name="or_login_with">Hoặc đăng nhập với</string>
+    <string name="google_login">Đăng nhập bằng Google</string>
+    <string name="facebook_login">Đăng nhập bằng Facebook</string>
+    <string name="google">Google</string>
+    <string name="facebook">Facebook</string>
 </resources>
