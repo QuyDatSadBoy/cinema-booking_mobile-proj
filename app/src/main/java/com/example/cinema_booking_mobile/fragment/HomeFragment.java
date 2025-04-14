@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cinema_booking_mobile.R;
 import com.example.cinema_booking_mobile.model.Phim;
-import com.example.cinema_booking_mobile.model.adapter.PhimDangChieuAdapter;
-import com.example.cinema_booking_mobile.model.adapter.PhimSapChieuAdapter;
+import com.example.cinema_booking_mobile.adapter.PhimDangChieuAdapter;
+import com.example.cinema_booking_mobile.adapter.PhimSapChieuAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

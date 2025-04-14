@@ -1,4 +1,4 @@
-package com.example.cinema_booking_mobile.model.adapter;
+package com.example.cinema_booking_mobile.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,13 +15,13 @@ import java.util.List;
 
 public class PhimDangChieuAdapter extends RecyclerView.Adapter<PhimDangChieuAdapter.PhimDangChieuHolder> {
     private List<Phim> phimList;
-    private PhimDangChieuListener phimDangChieuListener;
+    private OnItemClickListener.PhimDangChieuListener phimDangChieuListener;
 
     public PhimDangChieuAdapter(List<Phim> phimList) {
         this.phimList = phimList;
     }
 
-    public void setPhimDangChieuListener(PhimDangChieuListener phimDangChieuListener) {
+    public void setPhimDangChieuListener(OnItemClickListener.PhimDangChieuListener phimDangChieuListener) {
         this.phimDangChieuListener = phimDangChieuListener;
     }
 
@@ -61,9 +61,5 @@ public class PhimDangChieuAdapter extends RecyclerView.Adapter<PhimDangChieuAdap
                 }
             });
         }
-    }
-
-    public interface PhimDangChieuListener {
-        void onPhimDangChieuClick(int position);
     }
 }

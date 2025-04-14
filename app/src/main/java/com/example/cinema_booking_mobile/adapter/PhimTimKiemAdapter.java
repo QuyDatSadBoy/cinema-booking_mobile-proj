@@ -1,4 +1,4 @@
-package com.example.cinema_booking_mobile.model.adapter;
+package com.example.cinema_booking_mobile.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,14 +19,14 @@ import java.util.List;
 public class PhimTimKiemAdapter extends RecyclerView.Adapter<PhimTimKiemAdapter.PhimTimKiemHolder> {
     private List<Phim> phimList;
     private List<Phim> phimTimKiemList;
-    private PhimTimKiemListener phimTimKiemListener;
+    private OnItemClickListener.PhimTimKiemListener phimTimKiemListener;
 
     public PhimTimKiemAdapter(List<Phim> phimList) {
         this.phimList = new ArrayList<>(phimList);
         this.phimTimKiemList = new ArrayList<>(phimList);
     }
 
-    public void setPhimTimKiemListener(PhimTimKiemListener phimTimKiemListener) {
+    public void setPhimTimKiemListener(OnItemClickListener.PhimTimKiemListener phimTimKiemListener) {
         this.phimTimKiemListener = phimTimKiemListener;
     }
 
@@ -92,7 +92,4 @@ public class PhimTimKiemAdapter extends RecyclerView.Adapter<PhimTimKiemAdapter.
         }
     }
 
-    public interface PhimTimKiemListener {
-        void onPhimTimKiemClick(int position);
-    }
 }

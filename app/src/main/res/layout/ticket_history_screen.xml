@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_back"
+            android:src="@drawable/icon_back"
             android:contentDescription="Back" />
 
         <TextView
@@ -83,7 +83,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_search"
+                android:src="@drawable/baseline_manage_search_24"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp"
                 android:contentDescription="Search Icon" />

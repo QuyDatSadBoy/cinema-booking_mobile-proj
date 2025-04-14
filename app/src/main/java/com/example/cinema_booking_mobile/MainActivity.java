@@ -12,7 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.cinema_booking_mobile.fragment.HomeFragment;
 import com.example.cinema_booking_mobile.fragment.SearchFragment;
-import com.example.cinema_booking_mobile.fragment.adapter.MainFragmentAdapter;
+import com.example.cinema_booking_mobile.adapter.MainFragmentAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 

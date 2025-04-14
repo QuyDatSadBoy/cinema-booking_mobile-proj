@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -16,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cinema_booking_mobile.R;
 import com.example.cinema_booking_mobile.model.Phim;
-import com.example.cinema_booking_mobile.model.adapter.PhimTimKiemAdapter;
+import com.example.cinema_booking_mobile.adapter.PhimTimKiemAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
