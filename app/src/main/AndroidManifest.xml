@@ -20,6 +20,10 @@
 
         </activity>
         <activity
+            android:name=".activity.RegisterActivity"
+            android:exported="false">
+        </activity>
+        <activity
             android:name=".activity.PaymentDetailsActivity"
             android:exported="true">
             <intent-filter>
