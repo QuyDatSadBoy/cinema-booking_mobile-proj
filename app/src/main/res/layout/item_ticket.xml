@@ -67,8 +67,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/bg_status_confirmed"
-                android:text="Đã xác nhận"
+                android:background="@drawable/buy_button_background"
+                android:text="Đã thanh toán"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp" />
