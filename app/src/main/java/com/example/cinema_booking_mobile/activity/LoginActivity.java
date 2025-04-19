@@ -3,13 +3,17 @@ package com.example.cinema_booking_mobile.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.example.cinema_booking_mobile.MainActivity;
 import com.example.cinema_booking_mobile.R;
@@ -28,21 +32,30 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText etEmail, etPassword;
     private Button btnLogin;
-    private TextView tvRegister;
+    private TextView tvRegister, tvForgotPassword;
     private ProgressBar progressBar;
+    private ImageButton backButton, togglePasswordVisibility;
+    private CardView googleLoginButton, facebookLoginButton;
     private IAuthService authService;
     private SessionManager sessionManager;
+    private boolean isPasswordVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        // Khởi tạo các view
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvRegister = findViewById(R.id.tvRegister);
         progressBar = findViewById(R.id.progressBar);
+        backButton = findViewById(R.id.backButton);
+        togglePasswordVisibility = findViewById(R.id.togglePasswordVisibility);
+        tvForgotPassword = findViewById(R.id.tvForgotPassword);
+        googleLoginButton = findViewById(R.id.googleLoginButton);
+        facebookLoginButton = findViewById(R.id.facebookLoginButton);
 
         authService = ApiUtils.getAuthService();
         sessionManager = new SessionManager(this);
@@ -51,17 +64,55 @@ public class LoginActivity extends AppCompatActivity {
 //            navigateToMainActivity();
 //        }
 
+        // Xử lý sự kiện nút quay lại
+        backButton.setOnClickListener(v -> finish());
+
+        // Xử lý sự kiện hiển thị/ẩn mật khẩu
+        togglePasswordVisibility.setOnClickListener(v -> {
+            if (isPasswordVisible) {
+                // Ẩn mật khẩu
+                etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                togglePasswordVisibility.setImageResource(R.drawable.ic_visibility_off);
+                isPasswordVisible = false;
+            } else {
+                // Hiển thị mật khẩu
+                etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                togglePasswordVisibility.setImageResource(R.drawable.ic_visibility);
+                isPasswordVisible = true;
+            }
+            // Đặt con trỏ ở cuối văn bản
+            etPassword.setSelection(etPassword.getText().length());
+        });
+
+        // Xử lý sự kiện đăng nhập
         btnLogin.setOnClickListener(v -> {
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
 
             if (validateInput(email, password)) {
-                performLogin(email, password);
+//                performLogin(email, password);
+                navigateToMainActivity();
             }
         });
 
+        // Xử lý sự kiện đăng ký
         tvRegister.setOnClickListener(v -> {
             Toast.makeText(LoginActivity.this, "Chức năng đăng ký đang được phát triển", Toast.LENGTH_SHORT).show();
+        });
+
+        // Xử lý sự kiện quên mật khẩu
+        tvForgotPassword.setOnClickListener(v -> {
+            Toast.makeText(LoginActivity.this, "Chức năng quên mật khẩu đang được phát triển", Toast.LENGTH_SHORT).show();
+        });
+
+        // Xử lý đăng nhập với Google
+        googleLoginButton.setOnClickListener(v -> {
+            Toast.makeText(LoginActivity.this, "Đăng nhập với Google đang phát triển", Toast.LENGTH_SHORT).show();
+        });
+
+        // Xử lý đăng nhập với Facebook
+        facebookLoginButton.setOnClickListener(v -> {
+            Toast.makeText(LoginActivity.this, "Đăng nhập với Facebook đang phát triển", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -83,7 +134,6 @@ public class LoginActivity extends AppCompatActivity {
         showLoading(true);
 
         LoginRequest loginRequest = new LoginRequest(email, password);
-        Toast.makeText(getApplicationContext(),email,Toast.LENGTH_LONG);
 
         authService.login(loginRequest).enqueue(new Callback<LoginResponse>() {
             @Override

@@ -1,5 +1,37 @@
 <resources>
     <string name="app_name">cinema_booking_mobile</string>
+    <!-- Login Activity Strings -->
+    <string name="back_button">Quay lại</string>
+    <string name="login_title">Xin chào</string>
+    <string name="login_subtitle">Đăng nhập bằng tài khoản của bạn</string>
+    <string name="email_address">Địa chỉ email</string>
+    <string name="email_hint">helloteja@gmail.com</string>
+    <string name="password">Mật khẩu</string>
+    <string name="password_hint">••••••••••••</string>
+    <string name="toggle_password_visibility">Hiển thị/Ẩn mật khẩu</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+    <string name="login_button">Đăng nhập</string>
+    <string name="no_account">Bạn chưa có tài khoản?</string>
+    <string name="signup">Tham gia</string>
+    <string name="or_login_with">Hoặc đăng nhập với</string>
+    <string name="google_login">Đăng nhập bằng Google</string>
+    <string name="facebook_login">Đăng nhập bằng Facebook</string>
+    <string name="google">Google</string>
+    <string name="facebook">Facebook</string>
+    <!-- Register Strings -->
+    <string name="register_title">Đăng ký</string>
+    <string name="create_account_title">Tạo tài khoản của bạn</string>
+    <string name="name_label">Tên</string>
+    <string name="name_hint">ex: jon smith</string>
+    <string name="confirm_password">Gõ lại mật khẩu</string>
+    <string name="agree_with">Đồng ý</string>
+    <string name="terms_conditions">điều khoản &amp; chính sách</string>
+    <string name="and">.</string>
+    <string name="privacy_policy">chính sách</string>
+    <string name="register_button">Đăng ký</string>
+    <string name="already_account">Bạn đã có tài khoản?</string>
+    <string name="login_text">Đăng nhập</string>
+
     <!-- Account Fragment Strings -->
     <string name="account_title">Quản lý tài khoản</string>
     <string name="more_options">Tùy chọn</string>
@@ -16,6 +48,4 @@
         <item>Nữ</item>
         <item>Khác</item>
     </string-array>
-
-
 </resources>

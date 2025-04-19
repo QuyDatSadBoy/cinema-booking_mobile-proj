@@ -11,4 +11,6 @@
     <color name="colorBackground">#EBEFF0</color>
     <color name="colorTextDateSelected">#3F5C5B</color>
     <color name="colorButton">#669593</color>
+    <color name="colorButtonCancel">#C3D4D4</color>
+    <color name="textColorMin">#666666</color>
 </resources>

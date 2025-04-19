@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="@color/colorBackground">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -30,15 +30,6 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-<!--        <ImageButton-->
-<!--            android:id="@+id/btnMore"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="end"-->
-<!--            android:layout_marginEnd="16dp"-->
-<!--            android:background="?attr/selectableItemBackgroundBorderless"-->
-<!--            android:src="@drawable/ic_more"-->
-<!--            android:contentDescription="More Options" />-->
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
@@ -75,13 +66,13 @@
                     android:padding="16dp"
                     android:gravity="center_vertical">
 
-<!--                    <ImageView-->
-<!--                        android:layout_width="40dp"-->
-<!--                        android:layout_height="40dp"-->
-<!--                        android:src="@drawable/ic_mb_bank"-->
-<!--                        android:background="@drawable/bg_bank_icon"-->
-<!--                        android:padding="8dp"-->
-<!--                        android:contentDescription="MB Bank" />-->
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_mb_bank"
+                        android:background="@drawable/bg_bank_icon"
+                        android:padding="8dp"
+                        android:contentDescription="MB Bank" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -134,13 +125,13 @@
                     android:padding="16dp"
                     android:gravity="center_vertical">
 
-<!--                    <ImageView-->
-<!--                        android:layout_width="40dp"-->
-<!--                        android:layout_height="40dp"-->
-<!--                        android:src="@drawable/ic_momo"-->
-<!--                        android:background="@drawable/bg_momo_icon"-->
-<!--                        android:padding="8dp"-->
-<!--                        android:contentDescription="MoMo" />-->
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_momo"
+                        android:background="@drawable/bg_momo_icon"
+                        android:padding="8dp"
+                        android:contentDescription="MoMo" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -180,13 +171,13 @@
                     android:padding="16dp"
                     android:gravity="center_vertical">
 
-<!--                    <ImageView-->
-<!--                        android:layout_width="40dp"-->
-<!--                        android:layout_height="40dp"-->
-<!--                        android:src="@drawable/ic_mb_bank"-->
-<!--                        android:background="@drawable/bg_bank_icon"-->
-<!--                        android:padding="8dp"-->
-<!--                        android:contentDescription="MB Bank" />-->
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_mb_bank"
+                        android:background="@drawable/bg_bank_icon"
+                        android:padding="8dp"
+                        android:contentDescription="MB Bank" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -218,8 +209,8 @@
                 android:layout_height="wrap_content"
                 android:text="Thêm phương thức mới"
                 android:textAllCaps="false"
-                android:textColor="#1E88E5"
-                android:background="@drawable/bg_button_outline"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/buy_button_background"
                 android:padding="12dp" />
         </LinearLayout>
     </ScrollView>
