@@ -1,14 +1,15 @@
 package com.example.cinema_booking_mobile.activity;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -18,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cinema_booking_mobile.R;
+import com.example.cinema_booking_mobile.model.UserProfile;
 import com.example.cinema_booking_mobile.util.SessionManager;
 import com.squareup.picasso.Picasso;
 
@@ -30,6 +32,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PersonalInfoActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
+    private static final String TAG = "PersonalInfoActivity";
+    // Shared Preferences Constants
+    private static final String PREF_USER_INFO = "UserInfoPreferences";
+    private static final String KEY_USER_AVATAR = "userAvatar";
+    private static final String KEY_USER_PHONE = "userPhone";
+    private static final String KEY_USER_BIRTHDAY = "userBirthday";
+    private static final String KEY_USER_GENDER = "userGender";
+    private static final String KEY_USER_ADDRESS = "userAddress";
 
     private CircleImageView ivUserAvatar;
     private ImageView btnBack, btnChangeAvatar;
@@ -38,17 +48,21 @@ public class PersonalInfoActivity extends AppCompatActivity {
     private Button btnSave;
 
     private Uri imageUri;
-    private SessionManager sessionManager;
     private Calendar calendar;
+    private SessionManager sessionManager;
+    private SharedPreferences userInfoPreferences;
+    private UserProfile userProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_info);
 
-        // Khởi tạo SessionManager
+        // Khởi tạo
         sessionManager = new SessionManager(this);
+        userInfoPreferences = getSharedPreferences(PREF_USER_INFO, Context.MODE_PRIVATE);
         calendar = Calendar.getInstance();
+        userProfile = new UserProfile();
 
         // Ánh xạ các view
         initViews();
@@ -56,8 +70,8 @@ public class PersonalInfoActivity extends AppCompatActivity {
         // Cài đặt adapter cho Spinner giới tính
         setupGenderSpinner();
 
-        // Hiển thị thông tin người dùng từ SessionManager
-        displayUserInfo();
+        // Lấy thông tin người dùng
+        loadUserProfile();
 
         // Thiết lập các sự kiện
         setupEventListeners();
@@ -84,47 +98,59 @@ public class PersonalInfoActivity extends AppCompatActivity {
         spinnerGender.setAdapter(adapter);
     }
 
+    private void loadUserProfile() {
+        // Trong tương lai, đây sẽ là nơi để gọi API lấy thông tin người dùng
+        // Ví dụ:
+        // ApiClient.getApiService().getUserProfile(userId).enqueue(new Callback<UserProfile>() { ... });
+
+        // Hiện tại, lấy thông tin cơ bản từ SessionManager (thông tin đăng nhập)
+        userProfile.setId(sessionManager.getUserId());
+        userProfile.setName(sessionManager.getUserName());
+        userProfile.setEmail(sessionManager.getUserEmail());
+
+        // Lấy thông tin bổ sung từ SharedPreferences
+        userProfile.setAvatarUrl(userInfoPreferences.getString(KEY_USER_AVATAR, null));
+        userProfile.setPhone(userInfoPreferences.getString(KEY_USER_PHONE, null));
+        userProfile.setBirthday(userInfoPreferences.getString(KEY_USER_BIRTHDAY, null));
+        userProfile.setGender(userInfoPreferences.getString(KEY_USER_GENDER, null));
+        userProfile.setAddress(userInfoPreferences.getString(KEY_USER_ADDRESS, null));
+
+        // Hiển thị dữ liệu lên giao diện
+        displayUserInfo();
+    }
+
     private void displayUserInfo() {
-        // Hiển thị thông tin từ SessionManager
-        String userName = sessionManager.getUserName();
-        String userEmail = sessionManager.getUserEmail();
-        String userPhone = sessionManager.getUserPhone();
-        String userBirthday = sessionManager.getUserBirthday();
-        String userGender = sessionManager.getUserGender();
-        String userAddress = sessionManager.getUserAddress();
-        String userAvatar = sessionManager.getUserAvatar();
-
-        // Đặt giá trị vào các trường
-        if (userName != null) {
-            etFullName.setText(userName);
+        // Hiển thị thông tin lên giao diện
+        if (userProfile.getName() != null) {
+            etFullName.setText(userProfile.getName());
         }
 
-        if (userEmail != null) {
-            etEmail.setText(userEmail);
+        if (userProfile.getEmail() != null) {
+            etEmail.setText(userProfile.getEmail());
         }
 
-        if (userPhone != null) {
-            etPhone.setText(userPhone);
+        if (userProfile.getPhone() != null) {
+            etPhone.setText(userProfile.getPhone());
         }
 
-        if (userBirthday != null) {
-            etBirthday.setText(userBirthday);
+        if (userProfile.getBirthday() != null) {
+            etBirthday.setText(userProfile.getBirthday());
         }
 
-        if (userAddress != null) {
-            etAddress.setText(userAddress);
+        if (userProfile.getAddress() != null) {
+            etAddress.setText(userProfile.getAddress());
         }
 
         // Hiển thị avatar nếu có
-        if (userAvatar != null && !userAvatar.isEmpty()) {
-            Picasso.get().load(userAvatar).placeholder(R.drawable.ic_person).into(ivUserAvatar);
+        if (userProfile.getAvatarUrl() != null && !userProfile.getAvatarUrl().isEmpty()) {
+            Picasso.get().load(userProfile.getAvatarUrl()).placeholder(R.drawable.ic_person).into(ivUserAvatar);
         }
 
         // Đặt giới tính trong spinner
-        if (userGender != null) {
+        if (userProfile.getGender() != null) {
             ArrayAdapter adapter = (ArrayAdapter) spinnerGender.getAdapter();
             for (int i = 0; i < adapter.getCount(); i++) {
-                if (adapter.getItem(i).toString().equals(userGender)) {
+                if (adapter.getItem(i).toString().equals(userProfile.getGender())) {
                     spinnerGender.setSelection(i);
                     break;
                 }
@@ -143,7 +169,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
         etBirthday.setOnClickListener(v -> showDatePickerDialog());
 
         // Sự kiện lưu thông tin
-        btnSave.setOnClickListener(v -> saveUserInfo());
+        btnSave.setOnClickListener(v -> saveUserProfile());
     }
 
     private void openImagePicker() {
@@ -173,32 +199,60 @@ public class PersonalInfoActivity extends AppCompatActivity {
         etBirthday.setText(sdf.format(calendar.getTime()));
     }
 
-    private void saveUserInfo() {
-        // Lấy giá trị từ các trường
-        String fullName = etFullName.getText().toString().trim();
-        String email = etEmail.getText().toString().trim();
-        String phone = etPhone.getText().toString().trim();
-        String birthday = etBirthday.getText().toString().trim();
-        String gender = spinnerGender.getSelectedItem().toString();
-        String address = etAddress.getText().toString().trim();
-
+    private void saveUserProfile() {
         // Kiểm tra thông tin hợp lệ
-        if (fullName.isEmpty() || email.isEmpty()) {
-            Toast.makeText(this, "Vui lòng điền đầy đủ thông tin bắt buộc", Toast.LENGTH_SHORT).show();
+        if (!validateUserInput()) {
             return;
         }
 
-        // Lưu thông tin vào SessionManager
-        sessionManager.setUserName(fullName);
-        sessionManager.setUserEmail(email);
-        sessionManager.setUserPhone(phone);
-        sessionManager.setUserBirthday(birthday);
-        sessionManager.setUserGender(gender);
-        sessionManager.setUserAddress(address);
+        // Cập nhật thông tin từ form vào đối tượng userProfile
+        userProfile.setName(etFullName.getText().toString().trim());
+        userProfile.setEmail(etEmail.getText().toString().trim());
+        userProfile.setPhone(etPhone.getText().toString().trim());
+        userProfile.setBirthday(etBirthday.getText().toString().trim());
+        userProfile.setGender(spinnerGender.getSelectedItem().toString());
+        userProfile.setAddress(etAddress.getText().toString().trim());
+
+        // Trong tương lai, đây sẽ là nơi để gọi API cập nhật thông tin người dùng
+        // Ví dụ:
+        // ApiClient.getApiService().updateUserProfile(userId, userProfile).enqueue(new Callback<Response>() { ... });
+
+        // Hiện tại, lưu thông tin vào SharedPreferences
+        SharedPreferences.Editor editor = userInfoPreferences.edit();
+        editor.putString(KEY_USER_PHONE, userProfile.getPhone());
+        editor.putString(KEY_USER_BIRTHDAY, userProfile.getBirthday());
+        editor.putString(KEY_USER_GENDER, userProfile.getGender());
+        editor.putString(KEY_USER_ADDRESS, userProfile.getAddress());
+        editor.apply();
 
         // Hiển thị thông báo thành công
         Toast.makeText(this, "Đã lưu thông tin thành công", Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    private boolean validateUserInput() {
+        String fullName = etFullName.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
+
+        if (fullName.isEmpty()) {
+            etFullName.setError("Vui lòng nhập họ và tên");
+            etFullName.requestFocus();
+            return false;
+        }
+
+        if (email.isEmpty()) {
+            etEmail.setError("Vui lòng nhập email");
+            etEmail.requestFocus();
+            return false;
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            etEmail.setError("Vui lòng nhập email hợp lệ");
+            etEmail.requestFocus();
+            return false;
+        }
+
+        return true;
     }
 
     @Override
@@ -210,8 +264,15 @@ public class PersonalInfoActivity extends AppCompatActivity {
             // Hiển thị ảnh đã chọn
             Picasso.get().load(imageUri).into(ivUserAvatar);
 
-            // Lưu URI ảnh vào SessionManager
-            sessionManager.setUserAvatar(imageUri.toString());
+            // Trong tương lai, đây sẽ là nơi để gọi API upload ảnh lên server
+            // Ví dụ:
+            // uploadImageToServer(imageUri);
+
+            // Hiện tại, lưu URI ảnh vào SharedPreferences
+            userProfile.setAvatarUrl(imageUri.toString());
+            SharedPreferences.Editor editor = userInfoPreferences.edit();
+            editor.putString(KEY_USER_AVATAR, imageUri.toString());
+            editor.apply();
         }
     }
 }
