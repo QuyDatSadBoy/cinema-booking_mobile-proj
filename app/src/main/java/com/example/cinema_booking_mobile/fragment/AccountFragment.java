@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.cinema_booking_mobile.R;
 import com.example.cinema_booking_mobile.activity.LoginActivity;
+import com.example.cinema_booking_mobile.activity.PersonalInfoActivity;
 import com.example.cinema_booking_mobile.util.SessionManager;
 import com.squareup.picasso.Picasso;
 
@@ -52,13 +53,25 @@ public class AccountFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Cập nhật thông tin người dùng khi quay lại fragment
+        displayUserInfo();
+    }
+
     private void displayUserInfo() {
         // Hiển thị tên và email từ thông tin đã lưu trong SessionManager
         String userName = sessionManager.getUserName();
         String userEmail = sessionManager.getUserEmail();
 
-        tvName.setText(userName);
-        tvEmail.setText(userEmail);
+        if (userName != null) {
+            tvName.setText(userName);
+        }
+
+        if (userEmail != null) {
+            tvEmail.setText(userEmail);
+        }
 
         // Nếu có avatar thì hiển thị
         String avatar = sessionManager.getUserAvatar();
@@ -70,7 +83,9 @@ public class AccountFragment extends Fragment {
     private void setupClickListeners() {
         // Xử lý sự kiện khi click vào thông tin cá nhân
         layoutPersonalInfo.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Chức năng đang được phát triển", Toast.LENGTH_SHORT).show();
+            // Mở màn hình thông tin cá nhân
+            Intent intent = new Intent(requireContext(), PersonalInfoActivity.class);
+            startActivity(intent);
         });
 
         // Xử lý sự kiện khi click vào lịch sử đặt vé

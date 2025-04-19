@@ -9,4 +9,13 @@
     <string name="favorite_movies">Phim yêu thích</string>
     <string name="logout">Đăng xuất</string>
     <string name="icon_arrow">Mũi tên</string>
+
+    <!-- Thêm vào file strings.xml hiện có -->
+    <string-array name="gender_options">
+        <item>Nam</item>
+        <item>Nữ</item>
+        <item>Khác</item>
+    </string-array>
+
+
 </resources>
