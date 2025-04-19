@@ -1,25 +1,31 @@
 <resources>
     <style name="SeatStyle">
         <item name="android:textColor">#757575</item>
-        <item name="android:layout_width">40dp</item>
-        <item name="android:layout_height">40dp</item>
-        <item name="android:layout_margin">4dp</item>
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_margin">3dp</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="SeatStyle.Available">
         <item name="android:background">@drawable/seat_available</item>
+        <item name="android:textColor">#699997</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_margin">5dp</item>
     </style>
 
     <style name="SeatStyle.Reserved">
         <item name="android:background">@drawable/seat_reserved</item>
-        <item name="android:textColor">#757575</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_margin">5dp</item>
     </style>
 
     <style name="SeatStyle.Selected">
         <item name="android:background">@drawable/seat_selected</item>
         <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_margin">5dp</item>
     </style>
-
 </resources>

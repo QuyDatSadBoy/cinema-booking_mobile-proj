@@ -30,20 +30,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:contentDescription="Back button" />
+            android:contentDescription="Back button"
+            app:tint="?attr/colorControlNormal" />
 
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="The Dune Universe"
+            android:gravity="center"
             android:textSize="18sp"
-            android:textColor="#000000"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/backButton"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="16dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -77,188 +78,196 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp"
         android:visibility="gone" />
-    <HorizontalScrollView
-        android:id="@+id/seatGrid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/movieBanner"
-        android:layout_marginTop="16dp">
-    <GridLayout
+        <HorizontalScrollView
+            android:id="@+id/seatGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:layout_marginTop="25dp"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@id/seatsLabel">
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:columnCount="8"
-        android:rowCount="6">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal">
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="A1"
+                <GridLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:columnCount="8"
+                    android:rowCount="6"
+                    android:horizontalSpacing="16dp"
+                    android:verticalSpacing="16dp"
+                    android:useDefaultMargins="false"
+                    android:layout_margin="8dp">
 
-            />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="A2"
-          />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="A3"
-           />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="A4"
-          />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="A5"
-            />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="A6"  />
+                    <!-- Hàng A -->
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="A1" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="A2" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="A3" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="A4" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="A5" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="A6" />
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                    <!-- Hàng B -->
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="B1" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="B2" />
+                    <TextView
+                        style="@style/SeatStyle.Reserved"
+                        android:text="B3" />
+                    <TextView
+                        style="@style/SeatStyle.Reserved"
+                        android:text="B4" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="B5" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="B6" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="B7" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="B8" />
 
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="B1" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="B2" />
-        <TextView
-            style="@style/SeatStyle.Reserved"
-            android:text="B3" />
-        <TextView
-            style="@style/SeatStyle.Reserved"
-            android:text="B4" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="B5" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="B6" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="B7" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="B8" />
+                    <!-- Các hàng còn lại giữ nguyên như mã của bạn -->
+                    <!-- Hàng C -->
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="C1" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="C2" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="C3" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="C4" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="C5" />
+                    <TextView
+                        style="@style/SeatStyle.Selected"
+                        android:text="C6" />
+                    <TextView
+                        style="@style/SeatStyle.Reserved"
+                        android:text="C7" />
+                    <TextView
+                        style="@style/SeatStyle.Reserved"
+                        android:text="C8" />
 
+                    <!-- Hàng D -->
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="D1" />
+                    <TextView
+                        style="@style/SeatStyle.Reserved"
+                        android:text="D2" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="D3" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="D4" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="D5" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="D6" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="D7" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="D8" />
 
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="C1" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="C2" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="C3" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="C4" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="C5" />
-        <TextView
-            style="@style/SeatStyle.Selected"
-            android:text="C6" />
-        <TextView
-            style="@style/SeatStyle.Reserved"
-            android:text="C7" />
-        <TextView
-            style="@style/SeatStyle.Reserved"
-            android:text="C8" />
+                    <!-- Hàng E -->
+                    <TextView
+                        style="@style/SeatStyle.Selected"
+                        android:text="E1" />
+                    <TextView
+                        style="@style/SeatStyle.Selected"
+                        android:text="E2" />
+                    <TextView
+                        style="@style/SeatStyle.Selected"
+                        android:text="E3" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="E4" />
+                    <TextView
+                        style="@style/SeatStyle.Selected"
+                        android:text="E5" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="E6" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="E7" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="E8" />
 
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="D1" />
-        <TextView
-            style="@style/SeatStyle.Reserved"
-            android:text="D2" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="D3" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="D4" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="D5" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="D6" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="D7" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="D8" />
-
-
-        <TextView
-            style="@style/SeatStyle.Selected"
-            android:text="E1" />
-        <TextView
-            style="@style/SeatStyle.Selected"
-            android:text="E2" />
-        <TextView
-            style="@style/SeatStyle.Selected"
-            android:text="E3" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="E4" />
-        <TextView
-            style="@style/SeatStyle.Selected"
-            android:text="E5" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="E6" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="E7" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="E8" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="F1" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="F2" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="F3" />
-        <TextView
-            style="@style/SeatStyle.Available"
-            android:text="F4" />
-        <TextView
-            style="@style/SeatStyle.Selected"
-            android:text="F5" />
-        <TextView
-            style="@style/SeatStyle.Selected"
-            android:text="F6" />
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </GridLayout>
-</HorizontalScrollView>
-    <!-- Seat Legend -->
+                    <!-- Hàng F -->
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="F1" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="F2" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="F3" />
+                    <TextView
+                        style="@style/SeatStyle.Available"
+                        android:text="F4" />
+                    <TextView
+                        style="@style/SeatStyle.Selected"
+                        android:text="F5" />
+                    <TextView
+                        style="@style/SeatStyle.Selected"
+                        android:text="F6" />
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </GridLayout>
+            </LinearLayout>
+        </HorizontalScrollView>
     <LinearLayout
         android:id="@+id/seatLegend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/seatGrid"
-        android:layout_marginTop="16dp"
         android:orientation="horizontal"
         android:gravity="center">
 
@@ -382,7 +391,7 @@
             android:gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="40dp">
+            android:layout_marginBottom="42dp">
 
             <LinearLayout
                 android:layout_width="0dp"

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
 
-    <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -26,17 +24,16 @@
                 android:layout_centerVertical="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/icon_back"
-                android:contentDescription="Quay lại" />
+                android:contentDescription="Quay lại"
+                app:tint="?attr/colorControlNormal"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="Chi tiết vé xem phim"
-                android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
@@ -62,7 +59,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- Movie Information Card -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -73,22 +69,22 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="16dp">
-
-                        <ImageView
-                            android:id="@+id/imgMoviePoster"
-                            android:layout_width="80dp"
-                            android:layout_height="120dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/img"
-                            android:contentDescription="Dune: Part 2 poster" />
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imgTicket"
+                                android:layout_width="320dp"
+                                android:layout_height="150dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/ticket_text"
+                                android:contentDescription="Vé xem phim" />
 
                             <TextView
                                 android:id="@+id/tvMovieTitle"
@@ -99,26 +95,29 @@
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
 
-                            <TextView
-                                android:id="@+id/tvCinemaName"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:text="Rạp: CGV, Vietnam Cinema Center"
-                                android:textColor="#666666"
-                                android:textSize="14sp" />
                         </LinearLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginHorizontal="16dp"
+                                android:background="#E0E0E0" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="16dp"
+                                android:text="Dune: Part 2 - Cuộc phiêu lưu đắm chìm trong thế giới sa mạc Arrakis đầy bí ẩn và nguy hiểm."
+                                android:textSize="14sp"
+                                android:textColor="#444444" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- Ticket Details -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <!-- Date -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -158,7 +157,6 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Time -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -198,7 +196,6 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Location -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -238,7 +235,6 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Seats Information -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -278,6 +274,84 @@
                         </LinearLayout>
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="@drawable/circle_background"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_home"
+                            android:contentDescription="Phòng chiếu" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Phòng chiếu"
+                                android:textColor="#666666"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/tvScreeningRoom"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="P5 - IMAX"
+                                android:textColor="#000000"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="@drawable/circle_background"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_clock"
+                            android:contentDescription="Thời gian thanh toán" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Thời gian thanh toán"
+                                android:textColor="#666666"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/tvPaymentTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="28/03/2025 14:35"
+                                android:textColor="#000000"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
                     <!-- Confirmation Button -->
                     <Button
                         android:id="@+id/btnConfirm"
@@ -286,7 +360,7 @@
                         android:layout_marginTop="24dp"
                         android:background="@drawable/buy_button_background"
                         android:paddingVertical="12dp"
-                        android:text="Đã thanh toa"
+                        android:text="Đã thanh toán"
                         android:textAllCaps="false"
                         android:textColor="#FFFFFF"
                         android:textSize="16sp"
