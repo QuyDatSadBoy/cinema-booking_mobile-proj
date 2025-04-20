@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.cinema_booking_mobile.fragment.AccountFragment;
 import com.example.cinema_booking_mobile.fragment.HomeFragment;
 import com.example.cinema_booking_mobile.fragment.SearchFragment;
 import com.example.cinema_booking_mobile.adapter.MainFragmentAdapter;
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         fragments = new ArrayList<>();
         fragments.add(new HomeFragment());
         fragments.add(new SearchFragment());
+        fragments.add(new AccountFragment());
+
         fragmentManager = getSupportFragmentManager();
         mainFragmentAdapter = new MainFragmentAdapter(
                 fragmentManager,

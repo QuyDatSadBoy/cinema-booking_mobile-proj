@@ -32,4 +32,20 @@
     <string name="already_account">Bạn đã có tài khoản?</string>
     <string name="login_text">Đăng nhập</string>
 
+    <!-- Account Fragment Strings -->
+    <string name="account_title">Quản lý tài khoản</string>
+    <string name="more_options">Tùy chọn</string>
+    <string name="personal_info">Thông tin cá nhân</string>
+    <string name="booking_history">Lịch sử đặt vé</string>
+    <string name="payment_methods">Phương thức thanh toán</string>
+    <string name="favorite_movies">Phim yêu thích</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="icon_arrow">Mũi tên</string>
+
+    <!-- Thêm vào file strings.xml hiện có -->
+    <string-array name="gender_options">
+        <item>Nam</item>
+        <item>Nữ</item>
+        <item>Khác</item>
+    </string-array>
 </resources>
