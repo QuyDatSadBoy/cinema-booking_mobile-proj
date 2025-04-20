@@ -28,4 +28,9 @@
         <item name="android:textStyle">bold</item>
         <item name="android:layout_margin">5dp</item>
     </style>
+
+    <style name="MyTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+    </style>
+
 </resources>
