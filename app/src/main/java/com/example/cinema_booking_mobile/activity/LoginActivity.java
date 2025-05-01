@@ -97,7 +97,9 @@ public class LoginActivity extends AppCompatActivity {
 
         // Xử lý sự kiện đăng ký
         tvRegister.setOnClickListener(v -> {
-            Toast.makeText(LoginActivity.this, "Chức năng đăng ký đang được phát triển", Toast.LENGTH_SHORT).show();
+            // Chuyển đến màn hình đăng ký
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
         });
 
         // Xử lý sự kiện quên mật khẩu

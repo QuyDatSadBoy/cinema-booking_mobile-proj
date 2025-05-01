@@ -1,14 +1,31 @@
 package com.example.cinema_booking_mobile.dto.request;
 
-public class SignupRequest {
-    private String username;
-    private String email;
-    private String password;
+import java.util.Date;
 
-    public SignupRequest(String email, String password, String username) {
+public class SignupRequest {
+    private String email;
+    private String ten;
+    private String matKhau;
+    private String soDienThoai;
+    private String ngaySinh; // Format: yyyy-MM-dd
+    private String gioiTinh;
+    private String diaChi;
+
+    public SignupRequest(String email, String ten, String matKhau) {
         this.email = email;
-        this.password = password;
-        this.username = username;
+        this.ten = ten;
+        this.matKhau = matKhau;
+    }
+
+    public SignupRequest(String email, String ten, String matKhau, String soDienThoai,
+                         String ngaySinh, String gioiTinh, String diaChi) {
+        this.email = email;
+        this.ten = ten;
+        this.matKhau = matKhau;
+        this.soDienThoai = soDienThoai;
+        this.ngaySinh = ngaySinh;
+        this.gioiTinh = gioiTinh;
+        this.diaChi = diaChi;
     }
 
     public String getEmail() {
@@ -19,19 +36,51 @@ public class SignupRequest {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getTen() {
+        return ten;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setTen(String ten) {
+        this.ten = ten;
     }
 
-    public String getUsername() {
-        return username;
+    public String getMatKhau() {
+        return matKhau;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setMatKhau(String matKhau) {
+        this.matKhau = matKhau;
+    }
+
+    public String getSoDienThoai() {
+        return soDienThoai;
+    }
+
+    public void setSoDienThoai(String soDienThoai) {
+        this.soDienThoai = soDienThoai;
+    }
+
+    public String getNgaySinh() {
+        return ngaySinh;
+    }
+
+    public void setNgaySinh(String ngaySinh) {
+        this.ngaySinh = ngaySinh;
+    }
+
+    public String getGioiTinh() {
+        return gioiTinh;
+    }
+
+    public void setGioiTinh(String gioiTinh) {
+        this.gioiTinh = gioiTinh;
+    }
+
+    public String getDiaChi() {
+        return diaChi;
+    }
+
+    public void setDiaChi(String diaChi) {
+        this.diaChi = diaChi;
     }
 }

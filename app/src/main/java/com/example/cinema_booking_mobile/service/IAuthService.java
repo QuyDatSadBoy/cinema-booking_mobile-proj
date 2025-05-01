@@ -14,12 +14,12 @@ public interface IAuthService {
     @POST("auth/login")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);
 
-    @POST("/auth/register")
-    Call<Object> register(@Body SignupRequest signUpRequest);
+    @POST("auth/register")
+    Call<LoginResponse> register(@Body SignupRequest signUpRequest);
 
-    @POST("/auth/refresh")
-    Call<Object> refreshToken(@Header("Authorization") String refreshToken);
+    @POST("auth/refresh")
+    Call<LoginResponse> refreshToken(@Header("Authorization") String refreshToken);
 
-    @POST("/auth/logout")
+    @POST("auth/logout")
     Call<Object> logout(@Header("Authorization") String token);
 }
