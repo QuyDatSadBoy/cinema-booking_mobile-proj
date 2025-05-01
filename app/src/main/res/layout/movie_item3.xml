@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="10dp">
     <LinearLayout
         android:padding="10dp"
         android:orientation="horizontal"
@@ -17,7 +20,7 @@
             android:layout_marginStart="8dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -25,12 +28,15 @@
                 android:gravity="center_vertical"
                 android:layout_marginBottom="10dp">
                 <TextView
-                    android:id="@+id/tenPhim"
+                    android:id="@+id/ten"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
+                    android:minWidth="155dp"
                     android:maxWidth="155dp"
+                    android:minHeight="50dp"
                     android:text="Cuốn theo chiều gió đồng năm ấy còn mãi tôi"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="18sp"
                     android:maxLines="2"
@@ -39,7 +45,7 @@
                     android:id="@+id/doTuoi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="0dp"
+                    android:minWidth="50dp"
                     android:minHeight="0dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
@@ -48,28 +54,42 @@
                     android:text="13+"
                     android:textSize="18dp"
                     android:textColor="@color/white"
-                    android:background="@drawable/bg_age"/>
+                    android:background="@drawable/bg_age"
+                    android:layout_gravity="top"/>
             </LinearLayout>
-            <TextView
-                android:layout_height="wrap_content"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:id="@+id/theLoai"
-                android:text="Thể loại: Lãng mạn" />
-            <TextView
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:id="@+id/doDai"
-                android:text="Thời lượng: 165 phút" />
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:id="@+id/daoDien"
-                android:text="Đạo diễn: Jonh Lenon" />
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:id="@+id/trangThai"
-                android:text="Trạng thái: Sắp chiếu" />
+                android:orientation="vertical">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/theLoai"
+                    android:text="Thể loại: Lãng mạn"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/doDai"
+                    android:text="Thời lượng: 165 phút"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/daoDien"
+                    android:text="Đạo diễn: Jonh Lenon"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/trangThai"
+                    android:text="Trạng thái: Sắp chiếu"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

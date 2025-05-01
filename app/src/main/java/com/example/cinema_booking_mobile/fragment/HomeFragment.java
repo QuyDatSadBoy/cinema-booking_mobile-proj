@@ -1,5 +1,6 @@
 package com.example.cinema_booking_mobile.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +11,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cinema_booking_mobile.MainActivity;
 import com.example.cinema_booking_mobile.R;
+import com.example.cinema_booking_mobile.activity.MovieActivity;
 import com.example.cinema_booking_mobile.adapter.OnItemClickListener;
 import com.example.cinema_booking_mobile.model.Phim;
 import com.example.cinema_booking_mobile.adapter.PhimDangChieuAdapter;
 import com.example.cinema_booking_mobile.adapter.PhimSapChieuAdapter;
+import com.example.cinema_booking_mobile.others.SpaceItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +36,7 @@ public class HomeFragment extends Fragment implements
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.home_screen, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         return view;
     }
 
@@ -50,6 +55,7 @@ public class HomeFragment extends Fragment implements
                 120,
                 "Tieng Anh",
                 "No info",
+                "no Info",
                 "",
                 String.valueOf(R.drawable.poster),
                 "",
@@ -71,8 +77,10 @@ public class HomeFragment extends Fragment implements
         PhimDangChieuAdapter phimDangChieuAdapter = new PhimDangChieuAdapter(phimList);
         phimDangChieuAdapter.setPhimDangChieuListener(this);
         phimDangChieu.setAdapter(phimDangChieuAdapter);
-        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        phimDangChieu.setLayoutManager(linearLayoutManager2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+//        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        phimDangChieu.setLayoutManager(gridLayoutManager);
+        phimDangChieu.addItemDecoration(new SpaceItemDecoration(35));
 
         LinearSnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(phimSapChieu);
@@ -130,13 +138,15 @@ public class HomeFragment extends Fragment implements
 
     @Override
     public void onPhimSapChieuClick(int position) {
-        Toast.makeText(getActivity(), "Chi tiet phim sap chieu " + position, Toast.LENGTH_SHORT).show();
-        // Open film details screen
+        Intent intent = new Intent(getActivity(), MovieActivity.class);
+        intent.putExtra("movieId", position);
+        startActivity(intent);
     }
 
     @Override
     public void onPhimDangChieuClick(int position) {
-        Toast.makeText(getActivity(),"Chi tiet phim dang chieu " + position, Toast.LENGTH_SHORT).show();
-        // Open film details screen
+        Intent intent = new Intent(getActivity(), MovieActivity.class);
+        intent.putExtra("movieId", position);
+        startActivity(intent);
     }
 }

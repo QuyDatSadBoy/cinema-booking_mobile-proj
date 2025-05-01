@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.cinema_booking_mobile.R;
-import com.example.cinema_booking_mobile.dto.request.SignupRequest;
 import com.example.cinema_booking_mobile.service.IAuthService;
 import com.example.cinema_booking_mobile.util.ApiUtils;
 
@@ -39,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.register);
+        setContentView(R.layout.activity_register);
 
         // Khởi tạo view
         initViews();

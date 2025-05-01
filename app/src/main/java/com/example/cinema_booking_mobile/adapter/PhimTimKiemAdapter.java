@@ -51,7 +51,7 @@ public class PhimTimKiemAdapter extends RecyclerView.Adapter<PhimTimKiemAdapter.
     public void onBindViewHolder(@NonNull PhimTimKiemHolder holder, int position) {
         Phim phim = phimTimKiemList.get(position);
         holder.poster.setImageResource(Integer.parseInt(phim.getPoster()));
-        holder.tenPhim.setText(phim.getTen());
+        holder.ten.setText(phim.getTen());
         holder.theLoai.setText("Thể loại: " + phim.getTheLoai());
         holder.doDai.setText("Thời lượng: " + phim.getDoDai() + " phút");
         holder.daoDien.setText("Đạo diễn: " + phim.getDaoDien());
@@ -66,13 +66,13 @@ public class PhimTimKiemAdapter extends RecyclerView.Adapter<PhimTimKiemAdapter.
 
     public class PhimTimKiemHolder extends RecyclerView.ViewHolder {
         ImageView poster;
-        TextView tenPhim, theLoai, doDai, daoDien, trangThai;
+        TextView ten, theLoai, doDai, daoDien, trangThai;
         Button doTuoi;
 
         public PhimTimKiemHolder(View itemView) {
             super(itemView);
             poster = itemView.findViewById(R.id.poster);
-            tenPhim = itemView.findViewById(R.id.tenPhim);
+            ten = itemView.findViewById(R.id.ten);
             theLoai = itemView.findViewById(R.id.theLoai);
             doDai = itemView.findViewById(R.id.doDai);
             daoDien = itemView.findViewById(R.id.daoDien);

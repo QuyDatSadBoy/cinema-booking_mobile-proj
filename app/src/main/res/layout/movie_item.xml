@@ -10,4 +10,5 @@
         android:layout_width="215dp"
         android:layout_height="320dp"
         android:src="@drawable/poster"/>
+
 </androidx.cardview.widget.CardView>
