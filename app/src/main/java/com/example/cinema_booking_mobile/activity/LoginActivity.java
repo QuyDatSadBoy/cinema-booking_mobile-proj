@@ -60,9 +60,9 @@ public class LoginActivity extends AppCompatActivity {
         authService = ApiUtils.getAuthService();
         sessionManager = new SessionManager(this);
 
-//        if (sessionManager.isLoggedIn()) {
-//            navigateToMainActivity();
-//        }
+        if (sessionManager.isLoggedIn()) {
+            navigateToMainActivity();
+        }
 
         // Xử lý sự kiện nút quay lại
         backButton.setOnClickListener(v -> finish());
@@ -90,8 +90,8 @@ public class LoginActivity extends AppCompatActivity {
             String password = etPassword.getText().toString().trim();
 
             if (validateInput(email, password)) {
-//                performLogin(email, password);
-                navigateToMainActivity();
+                performLogin(email, password);
+//                navigateToMainActivity();
             }
         });
 
