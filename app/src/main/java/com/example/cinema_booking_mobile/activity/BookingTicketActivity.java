@@ -20,7 +20,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class BookingTitketActivity extends AppCompatActivity {
+public class BookingTicketActivity extends AppCompatActivity {
     private DateAdapter dateAdapter;
     private TimeAdapter timeAdapter;
 

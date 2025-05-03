@@ -65,4 +65,5 @@ dependencies {
     implementation(libs.rxandroid)
 
     implementation(libs.circleimageview)
+
 }
