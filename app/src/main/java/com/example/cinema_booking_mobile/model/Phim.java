@@ -7,6 +7,7 @@ public class Phim {
     private Integer doDai;
     private String ngonNgu;
     private String daoDien;
+    private String dienVien;
     private String moTa;
     private String poster;
     private String trailer;
@@ -16,13 +17,14 @@ public class Phim {
     private Float danhGia = 0f;
     private String trangThai = "Sắp chiếu";
 
-    public Phim(Integer id, String ten, String theLoai, Integer doDai, String ngonNgu, String daoDien, String moTa, String poster, String trailer, Integer namSanXuat, String hangSanXuat, String doTuoi, Float danhGia, String trangThai) {
+    public Phim(Integer id, String ten, String theLoai, Integer doDai, String ngonNgu, String daoDien, String dienVien, String moTa, String poster, String trailer, Integer namSanXuat, String hangSanXuat, String doTuoi, Float danhGia, String trangThai) {
         this.id = id;
         this.ten = ten;
         this.theLoai = theLoai;
         this.doDai = doDai;
         this.ngonNgu = ngonNgu;
         this.daoDien = daoDien;
+        this.dienVien = dienVien;
         this.moTa = moTa;
         this.poster = poster;
         this.trailer = trailer;
@@ -39,6 +41,7 @@ public class Phim {
     public Integer getDoDai() { return doDai; }
     public String getNgonNgu() { return ngonNgu; }
     public String getDaoDien() { return daoDien; }
+    public String getDienVien() { return dienVien; }
     public String getMoTa() { return moTa; }
     public String getPoster() { return poster; }
     public String getTrailer() { return trailer; }
@@ -54,6 +57,7 @@ public class Phim {
     public void setDoDai(Integer doDai) { this.doDai = doDai; }
     public void setNgonNgu(String ngonNgu) { this.ngonNgu = ngonNgu; }
     public void setDaoDien(String daoDien) { this.daoDien = daoDien; }
+    public void setDienVien(String dienVien) { this.dienVien = dienVien; }
     public void setMoTa(String moTa) { this.moTa = moTa; }
     public void setPoster(String poster) { this.poster = poster; }
     public void setTrailer(String trailer) { this.trailer = trailer; }
