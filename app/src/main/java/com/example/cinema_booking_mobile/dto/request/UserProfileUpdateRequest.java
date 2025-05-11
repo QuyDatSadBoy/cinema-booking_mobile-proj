@@ -1,55 +1,42 @@
 package com.example.cinema_booking_mobile.dto.request;
 
-import java.util.Date;
+import com.google.gson.annotations.SerializedName;
 
-public class SignupRequest {
-    private String email;
+public class UserProfileUpdateRequest {
+    @SerializedName("ten")
     private String ten;
-    private String matKhau;
+
+    @SerializedName("soDienThoai")
     private String soDienThoai;
-    private String ngaySinh; // Format: yyyy-MM-dd
+
+    @SerializedName("ngaySinh")
+    private String ngaySinh;
+
+    @SerializedName("gioiTinh")
     private String gioiTinh;
+
+    @SerializedName("diaChi")
     private String diaChi;
 
-    public SignupRequest(String email, String ten, String matKhau) {
-        this.email = email;
-        this.ten = ten;
-        this.matKhau = matKhau;
+    // Constructors
+    public UserProfileUpdateRequest() {
     }
 
-    public SignupRequest(String email, String ten, String matKhau, String soDienThoai,
-                         String ngaySinh, String gioiTinh, String diaChi) {
-        this.email = email;
+    public UserProfileUpdateRequest(String ten, String soDienThoai, String ngaySinh, String gioiTinh, String diaChi) {
         this.ten = ten;
-        this.matKhau = matKhau;
         this.soDienThoai = soDienThoai;
         this.ngaySinh = ngaySinh;
         this.gioiTinh = gioiTinh;
         this.diaChi = diaChi;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
+    // Getters and Setters
     public String getTen() {
         return ten;
     }
 
     public void setTen(String ten) {
         this.ten = ten;
-    }
-
-    public String getMatKhau() {
-        return matKhau;
-    }
-
-    public void setMatKhau(String matKhau) {
-        this.matKhau = matKhau;
     }
 
     public String getSoDienThoai() {

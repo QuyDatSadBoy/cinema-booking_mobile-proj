@@ -42,6 +42,16 @@
     <string name="logout">Đăng xuất</string>
     <string name="icon_arrow">Mũi tên</string>
 
+    <!-- Thêm chuỗi mới vào file values/strings.xml hiện có -->
+    <string name="gender_label">Giới tính</string>
+    <string name="phone_label">Số điện thoại</string>
+    <string name="phone_hint">Nhập số điện thoại</string>
+    <string name="birthday_label">Ngày sinh</string>
+    <string name="birthday_choose_btn">Chọn</string>
+    <string name="birthday_hint">Chọn ngày sinh</string>
+    <string name="address_label">Địa chỉ</string>
+    <string name="address_hint">Nhập địa chỉ</string>
+
     <!-- Thêm vào file strings.xml hiện có -->
     <string-array name="gender_options">
         <item>Nam</item>

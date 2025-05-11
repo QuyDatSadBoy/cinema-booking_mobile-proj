@@ -8,10 +8,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -19,20 +21,36 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cinema_booking_mobile.R;
+import com.example.cinema_booking_mobile.dto.request.UserProfileUpdateRequest;
+import com.example.cinema_booking_mobile.dto.response.AvatarResponse;
+import com.example.cinema_booking_mobile.dto.response.MessageResponse;
 import com.example.cinema_booking_mobile.model.UserProfile;
+import com.example.cinema_booking_mobile.service.IProfileService;
+import com.example.cinema_booking_mobile.service.IUserService;
+import com.example.cinema_booking_mobile.util.ApiUtils;
+import com.example.cinema_booking_mobile.util.DateFormatter;
+import com.example.cinema_booking_mobile.util.FileUtil;
+import com.example.cinema_booking_mobile.util.NetworkUtil;
 import com.example.cinema_booking_mobile.util.SessionManager;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
+import java.io.File;
 import java.util.Calendar;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PersonalInfoActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final String TAG = "PersonalInfoActivity";
+
     // Shared Preferences Constants
     private static final String PREF_USER_INFO = "UserInfoPreferences";
     private static final String KEY_USER_AVATAR = "userAvatar";
@@ -46,23 +64,27 @@ public class PersonalInfoActivity extends AppCompatActivity {
     private EditText etFullName, etEmail, etPhone, etBirthday, etAddress;
     private Spinner spinnerGender;
     private Button btnSave;
+    private ProgressBar progressBar;
 
     private Uri imageUri;
     private Calendar calendar;
     private SessionManager sessionManager;
     private SharedPreferences userInfoPreferences;
     private UserProfile userProfile;
+    private IProfileService profileService;
+    private boolean isLoading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_info);
 
-        // Khởi tạo
+// Khởi tạo
         sessionManager = new SessionManager(this);
         userInfoPreferences = getSharedPreferences(PREF_USER_INFO, Context.MODE_PRIVATE);
         calendar = Calendar.getInstance();
         userProfile = new UserProfile();
+        profileService = ApiUtils.getProfileService(); // Sử dụng ProfileService
 
         // Ánh xạ các view
         initViews();
@@ -88,10 +110,10 @@ public class PersonalInfoActivity extends AppCompatActivity {
         etAddress = findViewById(R.id.etAddress);
         spinnerGender = findViewById(R.id.spinnerGender);
         btnSave = findViewById(R.id.btnSave);
+        progressBar = findViewById(R.id.progressBar);
     }
 
     private void setupGenderSpinner() {
-        // Tạo adapter cho spinner giới tính
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.gender_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -99,11 +121,78 @@ public class PersonalInfoActivity extends AppCompatActivity {
     }
 
     private void loadUserProfile() {
-        // Trong tương lai, đây sẽ là nơi để gọi API lấy thông tin người dùng
-        // Ví dụ:
-        // ApiClient.getApiService().getUserProfile(userId).enqueue(new Callback<UserProfile>() { ... });
+        // Kiểm tra kết nối internet
+        if (NetworkUtil.isNetworkAvailable(this)) {
+            // Hiển thị loading
+            showLoading(true);
 
-        // Hiện tại, lấy thông tin cơ bản từ SessionManager (thông tin đăng nhập)
+            // Gọi API lấy thông tin người dùng
+            String token = sessionManager.getAuthorizationHeader();
+
+            // Debug để kiểm tra token
+            Log.d(TAG, "Token: " + token);
+
+            profileService.getUserProfile(token).enqueue(new Callback<UserProfile>() {
+                @Override
+                public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                    showLoading(false);
+
+                    if (response.isSuccessful() && response.body() != null) {
+                        // Lưu thông tin người dùng
+                        userProfile = response.body();
+
+                        // Hiển thị thông tin lên giao diện
+                        displayUserInfo();
+
+                        // Lưu thông tin vào SharedPreferences
+                        saveUserInfoToCache();
+                    } else {
+                        // Nếu API lỗi, lấy thông tin từ cache
+                        Toast.makeText(PersonalInfoActivity.this,
+                                "Không thể lấy thông tin từ server", Toast.LENGTH_SHORT).show();
+                        loadUserProfileFromCache();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UserProfile> call, Throwable t) {
+                    showLoading(false);
+                    Toast.makeText(PersonalInfoActivity.this,
+                            "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    // Lấy thông tin từ cache khi không kết nối được
+                    loadUserProfileFromCache();
+                }
+            });
+        } else {
+            // Không có kết nối internet, lấy từ cache
+            Toast.makeText(this, "Không có kết nối internet, hiển thị dữ liệu offline", Toast.LENGTH_SHORT).show();
+            loadUserProfileFromCache();
+        }
+    }
+
+    private void saveUserInfoToCache() {
+        SharedPreferences.Editor editor = userInfoPreferences.edit();
+        if (userProfile.getAvatarUrl() != null) {
+            editor.putString(KEY_USER_AVATAR, userProfile.getAvatarUrl());
+        }
+        if (userProfile.getPhone() != null) {
+            editor.putString(KEY_USER_PHONE, userProfile.getPhone());
+        }
+        if (userProfile.getBirthday() != null) {
+            editor.putString(KEY_USER_BIRTHDAY, userProfile.getBirthday());
+        }
+        if (userProfile.getGender() != null) {
+            editor.putString(KEY_USER_GENDER, userProfile.getGender());
+        }
+        if (userProfile.getAddress() != null) {
+            editor.putString(KEY_USER_ADDRESS, userProfile.getAddress());
+        }
+        editor.apply();
+    }
+
+    private void loadUserProfileFromCache() {
+        // Lấy thông tin cơ bản từ SessionManager (thông tin đăng nhập)
         userProfile.setId(sessionManager.getUserId());
         userProfile.setName(sessionManager.getUserName());
         userProfile.setEmail(sessionManager.getUserEmail());
@@ -133,8 +222,8 @@ public class PersonalInfoActivity extends AppCompatActivity {
             etPhone.setText(userProfile.getPhone());
         }
 
-        if (userProfile.getBirthday() != null) {
-            etBirthday.setText(userProfile.getBirthday());
+        if (userProfile.getBirthday() != null && !userProfile.getBirthday().isEmpty()) {
+            etBirthday.setText(DateFormatter.apiToDisplayFormat(userProfile.getBirthday()));
         }
 
         if (userProfile.getAddress() != null) {
@@ -143,7 +232,31 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
         // Hiển thị avatar nếu có
         if (userProfile.getAvatarUrl() != null && !userProfile.getAvatarUrl().isEmpty()) {
-            Picasso.get().load(userProfile.getAvatarUrl()).placeholder(R.drawable.ic_person).into(ivUserAvatar);
+            if (userProfile.getAvatarUrl().startsWith("http")) {
+                // URL đầy đủ từ server
+                Picasso.get().load(userProfile.getAvatarUrl())
+                        .placeholder(R.drawable.ic_person)
+                        .error(R.drawable.ic_person)
+                        .into(ivUserAvatar);
+            } else if (userProfile.getAvatarUrl().startsWith("/")) {
+                // URL tương đối từ server, cần ghép với base URL
+                String baseUrl = "http://10.0.2.2:8080"; // URL cho emulator Android
+                Picasso.get().load(baseUrl + userProfile.getAvatarUrl())
+                        .placeholder(R.drawable.ic_person)
+                        .error(R.drawable.ic_person)
+                        .into(ivUserAvatar);
+            } else {
+                // Có thể là URI local
+                try {
+                    Uri uri = Uri.parse(userProfile.getAvatarUrl());
+                    Picasso.get().load(uri)
+                            .placeholder(R.drawable.ic_person)
+                            .error(R.drawable.ic_person)
+                            .into(ivUserAvatar);
+                } catch (Exception e) {
+                    Log.e(TAG, "Error loading avatar: " + e.getMessage());
+                }
+            }
         }
 
         // Đặt giới tính trong spinner
@@ -178,6 +291,17 @@ public class PersonalInfoActivity extends AppCompatActivity {
     }
 
     private void showDatePickerDialog() {
+        // Nếu đã có ngày sinh, khởi tạo calendar với ngày sinh đó
+        if (userProfile.getBirthday() != null && !userProfile.getBirthday().isEmpty()) {
+            String[] parts = userProfile.getBirthday().split("-");
+            if (parts.length == 3) {
+                int year = Integer.parseInt(parts[0]);
+                int month = Integer.parseInt(parts[1]) - 1; // Tháng trong Calendar bắt đầu từ 0
+                int day = Integer.parseInt(parts[2]);
+                calendar.set(year, month, day);
+            }
+        }
+
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
                 (view, year, month, dayOfMonth) -> {
@@ -195,7 +319,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
     private void updateDateLabel() {
         String dateFormat = "dd/MM/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.getDefault());
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(dateFormat, Locale.getDefault());
         etBirthday.setText(sdf.format(calendar.getTime()));
     }
 
@@ -205,29 +329,77 @@ public class PersonalInfoActivity extends AppCompatActivity {
             return;
         }
 
-        // Cập nhật thông tin từ form vào đối tượng userProfile
-        userProfile.setName(etFullName.getText().toString().trim());
-        userProfile.setEmail(etEmail.getText().toString().trim());
-        userProfile.setPhone(etPhone.getText().toString().trim());
-        userProfile.setBirthday(etBirthday.getText().toString().trim());
-        userProfile.setGender(spinnerGender.getSelectedItem().toString());
-        userProfile.setAddress(etAddress.getText().toString().trim());
+        // Kiểm tra kết nối internet
+        if (!NetworkUtil.isNetworkAvailable(this)) {
+            Toast.makeText(this, "Không có kết nối internet", Toast.LENGTH_SHORT).show();
 
-        // Trong tương lai, đây sẽ là nơi để gọi API cập nhật thông tin người dùng
-        // Ví dụ:
-        // ApiClient.getApiService().updateUserProfile(userId, userProfile).enqueue(new Callback<Response>() { ... });
+            // Lưu vào cache cho dùng offline
+            userProfile.setName(etFullName.getText().toString().trim());
+            userProfile.setPhone(etPhone.getText().toString().trim());
+            userProfile.setBirthday(DateFormatter.displayToApiFormat(etBirthday.getText().toString().trim()));
+            userProfile.setGender(spinnerGender.getSelectedItem().toString());
+            userProfile.setAddress(etAddress.getText().toString().trim());
 
-        // Hiện tại, lưu thông tin vào SharedPreferences
-        SharedPreferences.Editor editor = userInfoPreferences.edit();
-        editor.putString(KEY_USER_PHONE, userProfile.getPhone());
-        editor.putString(KEY_USER_BIRTHDAY, userProfile.getBirthday());
-        editor.putString(KEY_USER_GENDER, userProfile.getGender());
-        editor.putString(KEY_USER_ADDRESS, userProfile.getAddress());
-        editor.apply();
+            saveUserInfoToCache();
+            Toast.makeText(this, "Đã lưu thông tin offline", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        // Hiển thị thông báo thành công
-        Toast.makeText(this, "Đã lưu thông tin thành công", Toast.LENGTH_SHORT).show();
-        finish();
+        // Hiển thị loading
+        showLoading(true);
+
+        // Tạo request object
+        UserProfileUpdateRequest request = new UserProfileUpdateRequest();
+        request.setTen(etFullName.getText().toString().trim());
+        request.setSoDienThoai(etPhone.getText().toString().trim());
+        request.setNgaySinh(DateFormatter.displayToApiFormat(etBirthday.getText().toString().trim()));
+        request.setGioiTinh(spinnerGender.getSelectedItem().toString());
+        request.setDiaChi(etAddress.getText().toString().trim());
+
+        // Cập nhật lại thông tin vào userProfile để lưu cache
+        userProfile.setName(request.getTen());
+        userProfile.setPhone(request.getSoDienThoai());
+        userProfile.setBirthday(request.getNgaySinh());
+        userProfile.setGender(request.getGioiTinh());
+        userProfile.setAddress(request.getDiaChi());
+
+        // Gọi API cập nhật thông tin người dùng
+        String token = sessionManager.getAuthorizationHeader();
+        profileService.updateUserProfile(token, request).enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                showLoading(false);
+
+                if (response.isSuccessful() && response.body() != null) {
+                    // Lưu thông tin vào cache
+                    saveUserInfoToCache();
+
+                    Toast.makeText(PersonalInfoActivity.this,
+                            "Đã lưu thông tin thành công", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(PersonalInfoActivity.this,
+                            "Lỗi cập nhật thông tin: " + (response.errorBody() != null ?
+                                    response.errorBody().toString() : response.message()),
+                            Toast.LENGTH_SHORT).show();
+
+                    // Vẫn lưu vào cache cho dùng offline
+                    saveUserInfoToCache();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+                showLoading(false);
+                Toast.makeText(PersonalInfoActivity.this,
+                        "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                // Lưu vào cache cho dùng offline
+                saveUserInfoToCache();
+                Toast.makeText(PersonalInfoActivity.this,
+                        "Đã lưu thông tin offline", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private boolean validateUserInput() {
@@ -264,15 +436,107 @@ public class PersonalInfoActivity extends AppCompatActivity {
             // Hiển thị ảnh đã chọn
             Picasso.get().load(imageUri).into(ivUserAvatar);
 
-            // Trong tương lai, đây sẽ là nơi để gọi API upload ảnh lên server
-            // Ví dụ:
-            // uploadImageToServer(imageUri);
-
-            // Hiện tại, lưu URI ảnh vào SharedPreferences
-            userProfile.setAvatarUrl(imageUri.toString());
-            SharedPreferences.Editor editor = userInfoPreferences.edit();
-            editor.putString(KEY_USER_AVATAR, imageUri.toString());
-            editor.apply();
+            // Kiểm tra kết nối internet
+            if (NetworkUtil.isNetworkAvailable(this)) {
+                // Upload ảnh lên server
+                uploadAvatar(imageUri);
+            } else {
+                // Lưu URI vào cache để upload sau
+                userProfile.setAvatarUrl(imageUri.toString());
+                SharedPreferences.Editor editor = userInfoPreferences.edit();
+                editor.putString(KEY_USER_AVATAR, imageUri.toString());
+                editor.apply();
+                Toast.makeText(this, "Đã lưu avatar offline", Toast.LENGTH_SHORT).show();
+            }
         }
+    }
+
+    private void uploadAvatar(Uri imageUri) {
+        try {
+            // Hiển thị loading
+            showLoading(true);
+
+            // Lấy file từ Uri
+            File file = FileUtil.getFileFromUri(this, imageUri);
+            if (file == null) {
+                showLoading(false);
+                Toast.makeText(this, "Không thể xử lý file ảnh", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Tạo RequestBody từ file
+            String mimeType = getContentResolver().getType(imageUri);
+            if (mimeType == null) {
+                mimeType = "image/*";
+            }
+
+            RequestBody requestFile = RequestBody.create(
+                    MediaType.parse(mimeType), file);
+
+            // Tạo MultipartBody.Part
+            MultipartBody.Part body = MultipartBody.Part.createFormData(
+                    "file", file.getName(), requestFile);
+
+            // Gọi API upload avatar
+            String token = sessionManager.getAuthorizationHeader();
+            profileService.uploadAvatar(token, body).enqueue(new Callback<AvatarResponse>() {
+                @Override
+                public void onResponse(Call<AvatarResponse> call, Response<AvatarResponse> response) {
+                    showLoading(false);
+
+                    if (response.isSuccessful() && response.body() != null) {
+                        String avatarUrl = response.body().getAvatarUrl();
+
+                        // Cập nhật avatar URL trong userProfile
+                        userProfile.setAvatarUrl(avatarUrl);
+
+                        // Lưu URL avatar vào cache
+                        SharedPreferences.Editor editor = userInfoPreferences.edit();
+                        editor.putString(KEY_USER_AVATAR, avatarUrl);
+                        editor.apply();
+
+                        Toast.makeText(PersonalInfoActivity.this,
+                                "Upload avatar thành công", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(PersonalInfoActivity.this,
+                                "Lỗi upload avatar: " + (response.errorBody() != null ?
+                                        response.errorBody().toString() : response.message()),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<AvatarResponse> call, Throwable t) {
+                    showLoading(false);
+                    Toast.makeText(PersonalInfoActivity.this,
+                            "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    // Lưu URI local vào cache
+                    userProfile.setAvatarUrl(imageUri.toString());
+                    SharedPreferences.Editor editor = userInfoPreferences.edit();
+                    editor.putString(KEY_USER_AVATAR, imageUri.toString());
+                    editor.apply();
+                    Toast.makeText(PersonalInfoActivity.this,
+                            "Đã lưu avatar offline", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            showLoading(false);
+            Log.e(TAG, "Error uploading avatar: " + e.getMessage());
+            Toast.makeText(this, "Lỗi xử lý file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void showLoading(boolean isLoading) {
+        this.isLoading = isLoading;
+        runOnUiThread(() -> {
+            if (isLoading) {
+                progressBar.setVisibility(View.VISIBLE);
+                btnSave.setEnabled(false);
+            } else {
+                progressBar.setVisibility(View.GONE);
+                btnSave.setEnabled(true);
+            }
+        });
     }
 }

@@ -65,4 +65,12 @@ dependencies {
     implementation(libs.rxandroid)
 
     implementation(libs.circleimageview)
+
+    // OkHttp cho networking
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
+
+    // Picasso cho load ảnh
+    implementation("com.squareup.picasso:picasso:2.71828")
+
 }

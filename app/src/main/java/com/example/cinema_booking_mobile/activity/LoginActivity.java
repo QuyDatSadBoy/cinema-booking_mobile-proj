@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_login);
 
         // Khởi tạo các view
         etEmail = findViewById(R.id.etEmail);
@@ -60,9 +60,9 @@ public class LoginActivity extends AppCompatActivity {
         authService = ApiUtils.getAuthService();
         sessionManager = new SessionManager(this);
 
-//        if (sessionManager.isLoggedIn()) {
-//            navigateToMainActivity();
-//        }
+        if (sessionManager.isLoggedIn()) {
+            navigateToMainActivity();
+        }
 
         // Xử lý sự kiện nút quay lại
         backButton.setOnClickListener(v -> finish());
@@ -90,14 +90,16 @@ public class LoginActivity extends AppCompatActivity {
             String password = etPassword.getText().toString().trim();
 
             if (validateInput(email, password)) {
-//                performLogin(email, password);
-                navigateToMainActivity();
+                performLogin(email, password);
+//                navigateToMainActivity();
             }
         });
 
         // Xử lý sự kiện đăng ký
         tvRegister.setOnClickListener(v -> {
-            Toast.makeText(LoginActivity.this, "Chức năng đăng ký đang được phát triển", Toast.LENGTH_SHORT).show();
+            // Chuyển đến màn hình đăng ký
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
         });
 
         // Xử lý sự kiện quên mật khẩu

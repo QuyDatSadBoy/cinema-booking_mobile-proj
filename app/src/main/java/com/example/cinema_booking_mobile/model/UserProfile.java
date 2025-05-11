@@ -6,41 +6,50 @@ public class UserProfile {
     @SerializedName("id")
     private Integer id;
 
-    @SerializedName("name")
-    private String name;
-
     @SerializedName("email")
     private String email;
 
-    @SerializedName("phone")
+    @SerializedName("ten")
+    private String name;
+
+    @SerializedName("soDienThoai")
     private String phone;
 
-    @SerializedName("birthday")
+    @SerializedName("ngaySinh")
     private String birthday;
 
-    @SerializedName("gender")
+    @SerializedName("gioiTinh")
     private String gender;
 
-    @SerializedName("address")
+    @SerializedName("diaChi")
     private String address;
 
-    @SerializedName("avatar_url")
+    @SerializedName("avatar")
     private String avatarUrl;
+
+    @SerializedName("hangThanhVien")
+    private String membershipTier;
+
+    @SerializedName("diemTichLuy")
+    private Integer loyaltyPoints;
 
     // Constructors
     public UserProfile() {
     }
 
-    public UserProfile(Integer id, String name, String email, String phone, String birthday,
-                       String gender, String address, String avatarUrl) {
+    public UserProfile(Integer id, String email, String name, String phone, String birthday,
+                       String gender, String address, String avatarUrl,
+                       String membershipTier, Integer loyaltyPoints) {
         this.id = id;
-        this.name = name;
         this.email = email;
+        this.name = name;
         this.phone = phone;
         this.birthday = birthday;
         this.gender = gender;
         this.address = address;
         this.avatarUrl = avatarUrl;
+        this.membershipTier = membershipTier;
+        this.loyaltyPoints = loyaltyPoints;
     }
 
     // Getters and Setters
@@ -52,20 +61,20 @@ public class UserProfile {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPhone() {
@@ -106,5 +115,21 @@ public class UserProfile {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public String getMembershipTier() {
+        return membershipTier;
+    }
+
+    public void setMembershipTier(String membershipTier) {
+        this.membershipTier = membershipTier;
+    }
+
+    public Integer getLoyaltyPoints() {
+        return loyaltyPoints;
+    }
+
+    public void setLoyaltyPoints(Integer loyaltyPoints) {
+        this.loyaltyPoints = loyaltyPoints;
     }
 }
