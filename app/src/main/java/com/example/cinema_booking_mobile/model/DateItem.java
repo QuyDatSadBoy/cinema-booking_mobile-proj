@@ -1,8 +1,10 @@
 package com.example.cinema_booking_mobile.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class DateItem {
+public class DateItem implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String dayName;
     private String dayNumber;
     private boolean isAvailable;

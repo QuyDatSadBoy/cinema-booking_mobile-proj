@@ -1,5 +1,6 @@
 package com.example.cinema_booking_mobile.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.example.cinema_booking_mobile.R;
 import com.example.cinema_booking_mobile.adapter.DateAdapter;
 import com.example.cinema_booking_mobile.adapter.OnItemClickListener;
 import com.example.cinema_booking_mobile.adapter.TimeAdapter;
+import com.example.cinema_booking_mobile.dto.response.ChonGheResponse;
 import com.example.cinema_booking_mobile.dto.response.GheDTO;
 import com.example.cinema_booking_mobile.dto.response.GioChieuReponse;
 import com.example.cinema_booking_mobile.dto.response.LichChieuDTO;
@@ -24,9 +26,12 @@ import com.example.cinema_booking_mobile.dto.response.SoDoGheResponse;
 import com.example.cinema_booking_mobile.model.DateItem;
 import com.example.cinema_booking_mobile.model.TimeItem;
 import com.example.cinema_booking_mobile.service.ILichChieuService;
+import com.example.cinema_booking_mobile.service.IPaymentService;
 import com.example.cinema_booking_mobile.util.ApiUtils;
 import com.example.cinema_booking_mobile.util.NetworkUtil;
+import com.example.cinema_booking_mobile.util.SessionManager;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -50,12 +55,15 @@ public class BookingTicketActivity extends AppCompatActivity {
     private RecyclerView timeRecyclerView;
 
     private ILichChieuService lichChieuService;
+    private IPaymentService iPaymentService;
+    private SessionManager sessionManager;
     private Integer movieId;
 
     private Map<String, TextView> seatViews = new HashMap<>();
     private SoDoGheResponse currentSeatMap;
     private List<GheDTO> selectedSeats = new ArrayList<>();
     private TimeItem selectedTime;
+    private DateItem selectedDate;
     private TextView titleText;
     private TextView tvTotalPrice;
     private Button btnBuy;
@@ -75,6 +83,8 @@ public class BookingTicketActivity extends AppCompatActivity {
         movieId =2;
 
         lichChieuService = ApiUtils.getLichChieuService();
+        iPaymentService = ApiUtils.getPaymentService();
+        sessionManager = new SessionManager(this);
         dateRecyclerView = findViewById(R.id.dateRecyclerView);
         timeRecyclerView = findViewById(R.id.timeRecyclerView);
 
@@ -88,11 +98,53 @@ public class BookingTicketActivity extends AppCompatActivity {
         setupSeatGrid();
 
         findViewById(R.id.backButton).setOnClickListener(v -> finish());
-//        btnBuy.setOnClickListener(v -> onBuyButtonClick());
-
         setupRecyclerView();
 
         loadDateData();
+
+        btnBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedSeats.isEmpty()) {
+                    Toast.makeText(BookingTicketActivity.this, "Vui lòng chọn ghế", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                List<Integer> lichChieuGheId = new ArrayList<>();
+                for (GheDTO ghe: selectedSeats){
+                    lichChieuGheId.add(ghe.getLichChieuGheId());
+                }
+
+                String token = sessionManager.getAuthorizationHeader();
+                iPaymentService.luuTrangThaiGiuGhe(token, lichChieuGheId).enqueue(new Callback<ChonGheResponse>() {
+                    @Override
+                    public void onResponse(Call<ChonGheResponse> call, Response<ChonGheResponse> response) {
+                        if (response.isSuccessful()) {
+                            ChonGheResponse result = response.body();
+                            System.out.println("Thành công: " + result);
+                        } else {
+                            System.out.println("Thất bại: " + response.errorBody());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ChonGheResponse> call, Throwable t) {
+                        System.out.println("Lỗi: " + t.getMessage());
+                    }
+                });
+
+
+                Intent intent = new Intent(BookingTicketActivity.this, PaymentDetailsActivity.class);
+                intent.putExtra("movieId", movieId);
+                intent.putExtra("movieName", currentSeatMap.getTenPhim());
+                intent.putExtra("selectedSeats", (Serializable) selectedSeats);
+                intent.putExtra("selectedTime", selectedTime);
+                intent.putExtra("selectedDate", selectedDate);
+                intent.putExtra("tenPhong", currentSeatMap.getTenPhong());
+                intent.putExtra("giaVe", currentSeatMap.getGiaVe());
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -165,6 +217,7 @@ public class BookingTicketActivity extends AppCompatActivity {
         dateAdapter = new DateAdapter(new ArrayList<DateItem>(), new OnItemClickListener.DateItemClickListener() {
             @Override
             public void onDateItemClick(DateItem dateItem, int position) {
+                selectedDate = dateItem;
                 selectedTime = null;
                 updatePriceInfo();
                 loadTimeData(movieId, dateItem.getDate());
@@ -192,7 +245,7 @@ public class BookingTicketActivity extends AppCompatActivity {
         if (!dateItems.isEmpty()) {
             dateItems.get(4).setSelected(true);
         }
-
+        selectedDate = dateItems.get(4);
         dateAdapter.updateData(dateItems);
         loadTimeData(movieId, dateItems.get(4).getDate());
         dateRecyclerView.scrollToPosition(1);
@@ -226,7 +279,7 @@ public class BookingTicketActivity extends AppCompatActivity {
                     if (seatView != null) {
                         seatView.setTag(seat);
 
-                        if ("Đã đặt".equals(seat.getTrangThai())) {
+                        if ("Đã đặt".equals(seat.getTrangThai()) || "Đã chọn".equals(seat.getTrangThai())) {
                             seatView.setBackgroundResource(R.drawable.seat_reserved);
                             seatView.setTextAppearance(R.style.SeatStyle_Reserved);
                             seatView.setEnabled(false);

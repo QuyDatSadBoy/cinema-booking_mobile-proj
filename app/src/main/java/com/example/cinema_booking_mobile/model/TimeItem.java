@@ -1,6 +1,9 @@
 package com.example.cinema_booking_mobile.model;
 
-public class TimeItem {
+import java.io.Serializable;
+
+public class TimeItem implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String time;
     private boolean isAvailable;
     private boolean isSelected;
