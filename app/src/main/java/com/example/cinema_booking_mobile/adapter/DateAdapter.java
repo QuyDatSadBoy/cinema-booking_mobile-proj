@@ -78,6 +78,10 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    public List<DateItem> getItems(){
+        return this.items;
+    }
+
     public void updateSelection(int position) {
         for (int i = 0; i < items.size(); i++) {
             boolean selected = i == position;

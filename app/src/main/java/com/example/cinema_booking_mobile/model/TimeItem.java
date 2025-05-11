@@ -4,17 +4,20 @@ public class TimeItem {
     private String time;
     private boolean isAvailable;
     private boolean isSelected;
+    private int lichChieuId;
 
-    public TimeItem(String time) {
+    public TimeItem(String time, int lichChieuId) {
         this.time = time;
         this.isAvailable = true;
         this.isSelected = false;
+        this.lichChieuId = lichChieuId;
     }
 
-    public TimeItem(String time, boolean isAvailable, boolean isSelected) {
+    public TimeItem(String time, boolean isAvailable, boolean isSelected, int lichChieuId) {
         this.time = time;
         this.isAvailable = isAvailable;
         this.isSelected = isSelected;
+        this.lichChieuId = lichChieuId;
     }
 
     public String getTime() {
@@ -39,5 +42,13 @@ public class TimeItem {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public int getLichChieuId() {
+        return lichChieuId;
+    }
+
+    public void setLichChieuId(int lichChieuId) {
+        this.lichChieuId = lichChieuId;
     }
 }

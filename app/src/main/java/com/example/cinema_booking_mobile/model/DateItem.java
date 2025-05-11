@@ -1,23 +1,20 @@
 package com.example.cinema_booking_mobile.model;
 
+import java.time.LocalDate;
+
 public class DateItem {
     private String dayName;
     private String dayNumber;
     private boolean isAvailable;
     private boolean isSelected;
+    private LocalDate date;
 
-    public DateItem(String dayName, String dayNumber) {
+    public DateItem(String dayName, String dayNumber, LocalDate date) {
         this.dayName = dayName;
         this.dayNumber = dayNumber;
         this.isAvailable = true;
         this.isSelected = false;
-    }
-
-    public DateItem(String dayName, String dayNumber, boolean isAvailable, boolean isSelected) {
-        this.dayName = dayName;
-        this.dayNumber = dayNumber;
-        this.isAvailable = isAvailable;
-        this.isSelected = isSelected;
+        this.date = date;
     }
 
     public String getDayName() {
@@ -50,5 +47,13 @@ public class DateItem {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }

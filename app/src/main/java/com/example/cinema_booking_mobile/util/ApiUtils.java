@@ -2,6 +2,7 @@ package com.example.cinema_booking_mobile.util;
 
 
 import com.example.cinema_booking_mobile.service.IAuthService;
+import com.example.cinema_booking_mobile.service.ILichChieuService;
 import com.example.cinema_booking_mobile.service.IProfileService;
 import com.example.cinema_booking_mobile.service.IUserService;
 
@@ -18,5 +19,9 @@ public class ApiUtils {
     // Thêm phương thức mới
     public static IProfileService getProfileService() {
         return ApiClient.getClient().create(IProfileService.class);
+    }
+
+    public static ILichChieuService getLichChieuService(){
+        return ApiClient.getClient().create(ILichChieuService.class);
     }
 }
