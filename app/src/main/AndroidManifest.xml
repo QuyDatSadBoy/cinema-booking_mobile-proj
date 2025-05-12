@@ -37,7 +37,7 @@
             android:name=".activity.BookingTicketActivity"
             android:exported="true"></activity>
         <activity
-            android:name=".activity.PersonalInfoActivity"
+            android:name=".activity.PersonaInfoActivity"
             android:exported="true"></activity>
         <activity
             android:name=".MainActivity"
