@@ -30,7 +30,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="10dp"
                 android:minWidth="155dp"
-                android:maxWidth="155dp"
+                android:maxWidth="255dp"
                 android:text="Dune: Part 2"
                 android:textStyle="bold"
                 android:textSize="18sp"
