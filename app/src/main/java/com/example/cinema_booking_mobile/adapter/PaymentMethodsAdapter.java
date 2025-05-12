@@ -71,10 +71,7 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
 
         public PaymentMethodViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgLogo = itemView.findViewById(R.id.imgPaymentLogo);
             tvName = itemView.findViewById(R.id.tvPaymentName);
-            tvPhoneNumber = itemView.findViewById(R.id.tvPaymentPhoneNumber);
-            radioButton = itemView.findViewById(R.id.radioPayment);
         }
     }
 }
