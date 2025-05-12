@@ -1,5 +1,6 @@
 package com.example.cinema_booking_mobile.service;
 
+import com.example.cinema_booking_mobile.dto.request.GoogleLoginRequest;
 import com.example.cinema_booking_mobile.dto.request.LoginRequest;
 import com.example.cinema_booking_mobile.dto.request.SignupRequest;
 import com.example.cinema_booking_mobile.dto.response.LoginResponse;
@@ -22,4 +23,7 @@ public interface IAuthService {
 
     @POST("auth/logout")
     Call<Object> logout(@Header("Authorization") String token);
+
+    @POST("auth/google")
+    Call<LoginResponse> loginWithGoogle(@Body GoogleLoginRequest loginRequest);
 }

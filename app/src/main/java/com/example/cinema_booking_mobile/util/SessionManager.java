@@ -12,6 +12,7 @@ public class SessionManager {
     private static final String KEY_USER_EMAIL = "userEmail";
     private static final String KEY_USER_NAME = "userName";
     private static final String KEY_USER_ROLE = "userRole";
+    private static final String KEY_USER_AVATAR = "userAvatar";
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -73,5 +74,14 @@ public class SessionManager {
     public void clearSession() {
         editor.clear();
         editor.apply();
+    }
+
+    public void setUserAvatar(String avatarUrl) {
+        editor.putString(KEY_USER_AVATAR, avatarUrl);
+        editor.apply();
+    }
+
+    public String getUserAvatar() {
+        return sharedPreferences.getString(KEY_USER_AVATAR, null);
     }
 }

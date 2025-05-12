@@ -218,7 +218,7 @@ public class PaymentDetailsActivity extends AppCompatActivity {
                                     .setPositiveButton("Xem vé", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            Intent intent = new Intent(PaymentDetailsActivity.this, PersonalInfoActivity.class);
+                                            Intent intent = new Intent(PaymentDetailsActivity.this, PersonaInfoActivity.class);
                                             startActivity(intent);
                                             finish();
                                         }

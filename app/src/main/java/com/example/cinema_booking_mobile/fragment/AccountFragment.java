@@ -1,5 +1,6 @@
 package com.example.cinema_booking_mobile.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,10 +18,20 @@ import androidx.fragment.app.Fragment;
 
 import com.example.cinema_booking_mobile.R;
 import com.example.cinema_booking_mobile.activity.LoginActivity;
-import com.example.cinema_booking_mobile.activity.PersonalInfoActivity;
+import com.example.cinema_booking_mobile.activity.PersonaInfoActivity;
 import com.example.cinema_booking_mobile.model.UserProfile;
+import com.example.cinema_booking_mobile.util.ApiUtils;
+import com.example.cinema_booking_mobile.util.NetworkUtil;
 import com.example.cinema_booking_mobile.util.SessionManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AccountFragment extends Fragment {
     private static final String TAG = "AccountFragment";
@@ -34,6 +45,9 @@ public class AccountFragment extends Fragment {
     private SessionManager sessionManager;
     private SharedPreferences userInfoPreferences;
     private UserProfile userProfile;
+
+    // Thêm constant
+    private static final int REQUEST_CODE_PERSONAL_INFO = 1001;
 
     @Nullable
     @Override
@@ -56,7 +70,7 @@ public class AccountFragment extends Fragment {
         layoutLogout = view.findViewById(R.id.layoutLogout);
 
         // Lấy thông tin người dùng
-        loadUserProfile();
+        loadUserProfileFromServer();
 
         // Thiết lập sự kiện click
         setupClickListeners();
@@ -64,12 +78,6 @@ public class AccountFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        // Cập nhật thông tin người dùng khi quay lại fragment
-        loadUserProfile();
-    }
 
     private void loadUserProfile() {
         // Trong tương lai, đây sẽ là nơi để gọi API lấy thông tin người dùng
@@ -100,7 +108,22 @@ public class AccountFragment extends Fragment {
 
         // Nếu có avatar thì hiển thị
         if (userProfile.getAvatarUrl() != null && !userProfile.getAvatarUrl().isEmpty()) {
-            Picasso.get().load(userProfile.getAvatarUrl()).placeholder(R.drawable.ic_person).into(ivAvatar);
+            String avatarUrl = userProfile.getAvatarUrl();
+
+            // Kiểm tra xem URL có phải là URL đầy đủ hay không
+            if (!avatarUrl.startsWith("http")) {
+                // Nếu là URL tương đối, ghép với base URL
+                String baseUrl = "http://10.0.2.2:8080/api";
+                avatarUrl = baseUrl + avatarUrl;
+            }
+
+            Picasso.get()
+                    .load(avatarUrl)
+                    .placeholder(R.drawable.ic_person)
+                    .error(R.drawable.ic_person)
+                    .into(ivAvatar);
+        } else {
+            ivAvatar.setImageResource(R.drawable.ic_person);
         }
     }
 
@@ -108,7 +131,7 @@ public class AccountFragment extends Fragment {
         // Xử lý sự kiện khi click vào thông tin cá nhân
         layoutPersonalInfo.setOnClickListener(v -> {
             // Mở màn hình thông tin cá nhân
-            Intent intent = new Intent(requireContext(), PersonalInfoActivity.class);
+            Intent intent = new Intent(requireContext(), PersonaInfoActivity.class);
             startActivity(intent);
         });
 
@@ -134,25 +157,90 @@ public class AccountFragment extends Fragment {
     }
 
     private void logoutUser() {
-        // Trong tương lai, đây sẽ là nơi để gọi API đăng xuất
-        // Ví dụ:
-        // ApiClient.getApiService().logout().enqueue(new Callback<Response>() { ... });
+        // Đăng xuất khỏi Firebase và Google
+        FirebaseAuth.getInstance().signOut();
 
-        // Xóa thông tin đăng nhập từ SessionManager
-        sessionManager.clearSession();
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(requireContext(),
+                new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.default_web_client_id))
+                        .requestEmail()
+                        .build());
+        googleSignInClient.signOut().addOnCompleteListener(task -> {
+            // Xóa thông tin đăng nhập từ SessionManager
+            sessionManager.clearSession();
 
-        // Xóa thông tin người dùng từ SharedPreferences
-        SharedPreferences.Editor editor = userInfoPreferences.edit();
-        editor.clear();
-        editor.apply();
+            // Xóa thông tin người dùng từ SharedPreferences
+            SharedPreferences.Editor editor = userInfoPreferences.edit();
+            editor.clear();
+            editor.apply();
 
-        // Xác nhận đăng xuất
-        Toast.makeText(requireContext(), "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+            // Xác nhận đăng xuất
+            Toast.makeText(requireContext(), "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
 
-        // Chuyển về màn hình đăng nhập
-        Intent intent = new Intent(requireContext(), LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        requireActivity().finish();
+            // Chuyển về màn hình đăng nhập
+            Intent intent = new Intent(requireContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            requireActivity().finish();
+        });
     }
+
+    private void loadUserProfileFromServer() {
+        // Kiểm tra kết nối internet
+        if (NetworkUtil.isNetworkAvailable(requireContext())) {
+            String token = sessionManager.getAuthorizationHeader();
+
+            // Gọi API để lấy thông tin profile đầy đủ
+            ApiUtils.getProfileService().getUserProfile(token).enqueue(new Callback<UserProfile>() {
+                @Override
+                public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        userProfile = response.body();
+                        displayUserInfo();
+
+                        // Lưu vào cache
+                        saveUserInfoToCache();
+                    } else {
+                        // Nếu không lấy được từ server, load từ cache
+                        loadUserProfile();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UserProfile> call, Throwable t) {
+                    // Nếu lỗi, load từ cache
+                    loadUserProfile();
+                }
+            });
+        } else {
+            // Không có internet, load từ cache
+            loadUserProfile();
+        }
+    }
+
+    private void saveUserInfoToCache() {
+        SharedPreferences.Editor editor = userInfoPreferences.edit();
+        if (userProfile.getAvatarUrl() != null) {
+            editor.putString(KEY_USER_AVATAR, userProfile.getAvatarUrl());
+        }
+        editor.apply();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Load lại thông tin từ server khi quay lại fragment
+        loadUserProfileFromServer();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_PERSONAL_INFO && resultCode == Activity.RESULT_OK) {
+            // Refresh data khi quay lại từ PersonalInfoActivity
+            loadUserProfileFromServer();
+        }
+    }
+
 }
