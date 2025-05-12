@@ -1,10 +1,8 @@
 package com.example.cinema_booking_mobile.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +30,6 @@ public class TicketHistoryActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewTickets;
     private TabLayout tabLayout;
-    private SearchView searchView;
     private ImageButton btnBack;
     private TicketAdapter ticketAdapter;
     private List<Ticket> ticketList;
@@ -51,7 +48,6 @@ public class TicketHistoryActivity extends AppCompatActivity {
 
         recyclerViewTickets = findViewById(R.id.recyclerViewTickets);
         tabLayout = findViewById(R.id.tabLayout);
-        searchView = findViewById(R.id.search);
         btnBack = findViewById(R.id.btnBack);
 
         ticketList = new ArrayList<>();
@@ -86,20 +82,6 @@ public class TicketHistoryActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // Xử lý khi người dùng nhấn Enter sau khi nhập query
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                // Xử lý khi người dùng thay đổi text trong SearchView
-                return true;
             }
         });
 

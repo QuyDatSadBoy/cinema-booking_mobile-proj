@@ -80,8 +80,6 @@ public class BookingTicketActivity extends AppCompatActivity {
             System.out.println("No Movie ID received!");
         }
 
-        movieId =2;
-
         lichChieuService = ApiUtils.getLichChieuService();
         iPaymentService = ApiUtils.getPaymentService();
         sessionManager = new SessionManager(this);
