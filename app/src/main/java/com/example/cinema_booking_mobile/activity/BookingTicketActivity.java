@@ -142,6 +142,7 @@ public class BookingTicketActivity extends AppCompatActivity {
                 intent.putExtra("selectedDate", selectedDate);
                 intent.putExtra("tenPhong", currentSeatMap.getTenPhong());
                 intent.putExtra("giaVe", currentSeatMap.getGiaVe());
+                intent.putExtra("poster", getIntent().getStringExtra("poster"));
                 startActivity(intent);
             }
         });
