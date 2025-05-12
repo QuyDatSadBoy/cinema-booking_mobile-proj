@@ -43,6 +43,9 @@
             android:name=".activity.TicketHistoryActivity"
             android:exported="true" />
         <activity
+            android:name=".activity.PaymentMethodActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
         </activity>

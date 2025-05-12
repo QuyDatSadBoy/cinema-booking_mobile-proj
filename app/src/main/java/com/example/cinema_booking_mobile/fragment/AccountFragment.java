@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.cinema_booking_mobile.R;
 import com.example.cinema_booking_mobile.activity.LoginActivity;
+import com.example.cinema_booking_mobile.activity.PaymentMethodActivity;
 import com.example.cinema_booking_mobile.activity.PersonaInfoActivity;
 import com.example.cinema_booking_mobile.activity.TicketHistoryActivity;
 import com.example.cinema_booking_mobile.model.UserProfile;
@@ -138,7 +139,6 @@ public class AccountFragment extends Fragment {
 
         // Xử lý sự kiện khi click vào lịch sử đặt vé
         layoutBookingHistory.setOnClickListener(v -> {
-//            Toast.makeText(requireContext(), "Chức năng đang được phát triển", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(requireContext(), TicketHistoryActivity.class);
             startActivity(intent);
 
@@ -146,7 +146,8 @@ public class AccountFragment extends Fragment {
 
         // Xử lý sự kiện khi click vào phương thức thanh toán
         layoutPaymentMethods.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Chức năng đang được phát triển", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(requireContext(), PaymentMethodActivity.class);
+            startActivity(intent);
         });
 
         // Xử lý sự kiện khi click vào phim yêu thích
