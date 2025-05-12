@@ -9,6 +9,10 @@ public class DateFormatter {
     private static final String API_DATE_FORMAT = "yyyy-MM-dd";
     private static final String DISPLAY_DATE_FORMAT = "dd/MM/yyyy";
 
+    private static final String API_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+    private static final String MM_DD_YYYY_FORMAT = "MM/dd/yyyy";
+
+
     public static String apiToDisplayFormat(String apiDate) {
         if (apiDate == null || apiDate.isEmpty()) {
             return "";
@@ -38,4 +42,20 @@ public class DateFormatter {
             return displayDate;
         }
     }
+
+    public static String apiDateTimeToMMDDYYYY(String apiDateTime) {
+        if (apiDateTime == null || apiDateTime.isEmpty()) {
+            return "";
+        }
+
+        try {
+            SimpleDateFormat apiFormat = new SimpleDateFormat(API_DATETIME_FORMAT, Locale.getDefault());
+            SimpleDateFormat outputFormat = new SimpleDateFormat(MM_DD_YYYY_FORMAT, Locale.getDefault());
+            Date date = apiFormat.parse(apiDateTime);
+            return outputFormat.format(date);
+        } catch (ParseException e) {
+            return apiDateTime;
+        }
+    }
+
 }

@@ -72,4 +72,6 @@ public class ApiClient {
     public static void resetClient() {
         retrofit = null;
     }
+
+
 }
