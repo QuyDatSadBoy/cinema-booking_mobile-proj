@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -108,13 +109,13 @@ public class PaymentDetailsActivity extends AppCompatActivity {
                             paymentMethods.clear();
                             List<PaymentMethodDTO> paymentMethodDTOS = response.body();
                             for (PaymentMethodDTO paymentMethodDTO:paymentMethodDTOS){
-                                paymentMethods.add(new PaymentMethod(
+                               PaymentMethod payment =new PaymentMethod(
                                         paymentMethodDTO.getId(),
                                         paymentMethodDTO.getTen(),
                                         paymentMethodDTO.getSoTaiKhoan(),
-                                        paymentMethodDTO.getTen().equals("Momo") ?  R.drawable.ic_momo :R.drawable.ic_mb_bank
-
-                                ));
+                                        paymentMethodDTO.getTen().equals("Momo") ?  R.drawable.ic_momo :R.drawable.ic_mb_bank);
+                               paymentMethods.add(payment);
+                                Log.d("payment_method", payment.getName());
 
                                 setupPaymentMethodsAdapter(paymentMethods);
                             }
@@ -218,7 +219,7 @@ public class PaymentDetailsActivity extends AppCompatActivity {
                                     .setPositiveButton("Xem vé", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            Intent intent = new Intent(PaymentDetailsActivity.this, PersonaInfoActivity.class);
+                                            Intent intent = new Intent(PaymentDetailsActivity.this, TicketHistoryActivity.class);
                                             startActivity(intent);
                                             finish();
                                         }

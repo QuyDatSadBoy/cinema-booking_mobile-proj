@@ -1,6 +1,8 @@
-package com.example.cinema_booking_mobile.model;
+package com.example.cinema_booking_mobile.dto.response;
 
-public class Phim {
+import java.io.Serializable;
+
+public class PhimDTO  implements Serializable {
     private Integer id;
     private String ten;
     private String theLoai;
@@ -17,9 +19,7 @@ public class Phim {
     private Float danhGia = 0f;
     private String trangThai = "Sắp chiếu";
 
-    public Phim() {}
-
-    public Phim(
+    public PhimDTO(
             Integer id, String ten, String theLoai, Integer doDai, String ngonNgu,
             String daoDien, String dienVien, String moTa, String poster, String trailer,
             Integer namSx, String hangSx, String doTuoi, Float danhGia, String trangThai) {
@@ -50,7 +50,7 @@ public class Phim {
     public String getMoTa() { return moTa; }
     public String getPoster() { return poster; }
     public String getTrailer() { return trailer; }
-    public Integer getNamSxt() { return namSx; }
+    public Integer getNamSx() { return namSx; }
     public String getHangSx() { return hangSx; }
     public String getDoTuoi() { return doTuoi; }
     public Float getDanhGia() { return danhGia; }

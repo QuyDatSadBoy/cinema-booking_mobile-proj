@@ -13,6 +13,16 @@ public class PaymentMethod {
         this.logoResId = logoResId;
     }
 
+    @Override
+    public String toString() {
+        return "PaymentMethod{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", logoResId=" + logoResId +
+                '}';
+    }
+
     public int getId() {
         return id;
     }

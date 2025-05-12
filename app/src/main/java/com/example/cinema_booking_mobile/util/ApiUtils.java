@@ -5,6 +5,7 @@ import com.example.cinema_booking_mobile.service.IAuthService;
 import com.example.cinema_booking_mobile.service.ILichChieuService;
 import com.example.cinema_booking_mobile.service.IPaymentService;
 import com.example.cinema_booking_mobile.service.IPerplexityService;
+import com.example.cinema_booking_mobile.service.IPhimService;
 import com.example.cinema_booking_mobile.service.IProfileService;
 import com.example.cinema_booking_mobile.service.ITicketHistoryService;
 
@@ -60,5 +61,9 @@ public class ApiUtils {
         }
 
         return perplexityRetrofit.create(IPerplexityService.class);
+    }
+
+    public static IPhimService getPhimService(){
+        return ApiClient.getClient().create(IPhimService.class);
     }
 }

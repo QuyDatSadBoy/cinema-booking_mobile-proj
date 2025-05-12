@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,15 +16,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cinema_booking_mobile.R;
 import com.example.cinema_booking_mobile.activity.MovieActivity;
 import com.example.cinema_booking_mobile.adapter.OnItemClickListener;
+import com.example.cinema_booking_mobile.dto.response.PhimDTO;
 import com.example.cinema_booking_mobile.model.Phim;
 import com.example.cinema_booking_mobile.adapter.PhimTimKiemAdapter;
+import com.example.cinema_booking_mobile.service.IPhimService;
+import com.example.cinema_booking_mobile.util.ApiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SearchFragment extends Fragment implements OnItemClickListener.PhimTimKiemListener {
     SearchView search;
     RecyclerView phimTimKiem;
+    PhimTimKiemAdapter phimTimKiemAdapter;
+    private IPhimService iPhimService;
+    private List<Phim> dsPhim = new ArrayList<>();
 
     @Nullable
     @Override
@@ -41,23 +51,11 @@ public class SearchFragment extends Fragment implements OnItemClickListener.Phim
         search = view.findViewById(R.id.search);
         phimTimKiem = view.findViewById(R.id.phimTimKiem);
 
-        List<Phim> phimList = new ArrayList<>();
-        phimList.add(new Phim(1, "Cuon theo chieu gio", "Lang man", 120, "Tieng Anh", "No info", "No info", "", String.valueOf(R.drawable.poster), "", 2023, "No info", "13+", 0f, "Sap chieu"));
-        phimList.add(new Phim(2, "Vu tru bao la", "Khoa hoc vien tuong", 140, "Tieng Viet", "No info", "No info", "", String.valueOf(R.drawable.poster), "", 2022, "No info", "16+", 0f, "Dang chieu"));
-        phimList.add(new Phim(3, "Hanh trinh kham pha", "Phieu luu", 110, "Tieng Phap", "No info", "No info", "", String.valueOf(R.drawable.poster), "", 2021, "No info", "13+", 0f, "Sap chieu"));
-        phimList.add(new Phim(4, "Tinh yeu va chien tranh", "Chien tranh", 150, "Tieng Anh", "No info", "No info", "", String.valueOf(R.drawable.poster), "", 2020, "No info", "18+", 0f, "Ngung chieu"));
-        phimList.add(new Phim(5, "Am anh toi toi", "Kinh di", 95, "Tieng Han", "No info", "No info", "", String.valueOf(R.drawable.poster), "", 2023, "No info", "18+", 0f, "Dang chieu"));
-        phimList.add(new Phim(6, "Ngay tro ve", "Tam ly", 125, "Tieng Nhat", "No info", "No info", "", String.valueOf(R.drawable.poster), "", 2019, "No info", "13+", 0f, "Sap chieu"));
-        phimList.add(new Phim(7, "Thanh pho ngu quen", "Bi an", 105, "Tieng Viet", "No info", "No info", "", String.valueOf(R.drawable.poster), "", 2024, "No info", "16+", 0f, "Dang chieu"));
-        phimList.add(new Phim(8, "Ky uc tuoi tho", "Gia dinh", 90, "Tieng Anh", "No info", "No info", "", String.valueOf(R.drawable.poster), "", 2022, "No info", "0+", 0f, "Sap chieu"));
-        phimList.add(new Phim(9, "Nang mua ha", "Lang man", 115, "Tieng Trung", "No info", "No info", "", String.valueOf(R.drawable.poster), "", 2021, "No info", "13+", 0f, "Ngung chieu"));
-        phimList.add(new Phim(10, "Vu dieu dem he", "Am nhac", 100, "Tieng Viet", "No info", "No info", "", String.valueOf(R.drawable.poster), "", 2023, "No info", "13+", 0f, "Dang chieu"));
-
-        PhimTimKiemAdapter phimTimKiemAdapter = new PhimTimKiemAdapter(phimList);
+        phimTimKiemAdapter = new PhimTimKiemAdapter(dsPhim);
         phimTimKiemAdapter.setPhimTimKiemListener(this);
         phimTimKiem.setAdapter(phimTimKiemAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        phimTimKiem.setLayoutManager(linearLayoutManager);
+        phimTimKiem.setLayoutManager(new LinearLayoutManager(
+                getActivity(), LinearLayoutManager.VERTICAL, false));
 
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -72,12 +70,42 @@ public class SearchFragment extends Fragment implements OnItemClickListener.Phim
                 return false;
             }
         });
+
+        iPhimService = ApiUtils.getPhimService();
+        iPhimService.getAllPhim().enqueue(new Callback<List<PhimDTO>>() {
+            @Override
+            public void onResponse(Call<List<PhimDTO>> call, Response<List<PhimDTO>> response) {
+                if (response.isSuccessful()) {
+                    dsPhim = response.body()
+                            .stream()
+                            .map(phimDTO ->
+                                    new Phim(
+                                            phimDTO.getId(), phimDTO.getTen(), phimDTO.getTheLoai(), phimDTO.getDoDai(),
+                                            phimDTO.getNgonNgu(), phimDTO.getDaoDien(),phimDTO.getDienVien(),
+                                            phimDTO.getMoTa(), phimDTO.getPoster(), phimDTO.getTrailer(),
+                                            phimDTO.getNamSx(), phimDTO.getHangSx(), phimDTO.getDoTuoi(),
+                                            phimDTO.getDanhGia(), phimDTO.getTrangThai()))
+                            .collect(Collectors.toList());
+
+                    phimTimKiemAdapter.updateData(dsPhim);
+
+                    System.out.println("Thành công: ");
+                } else {
+                    System.out.println("Thất bại: " + response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PhimDTO>> call, Throwable t) {
+                System.out.println("Lỗi: " + t.getMessage());
+            }
+        });
     }
 
     @Override
     public void onPhimTimKiemClick(int position) {
         Intent intent = new Intent(getActivity(), MovieActivity.class);
-        intent.putExtra("movieId", position);
+        intent.putExtra("movieId", phimTimKiemAdapter.getCurrentPhimId(position));
         startActivity(intent);
     }
 }
