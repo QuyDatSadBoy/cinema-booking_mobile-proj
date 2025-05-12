@@ -1,4 +1,5 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/mHome"
         android:icon="@drawable/outline_home_24"
@@ -7,11 +8,13 @@
         android:id="@+id/mSearch"
         android:icon="@drawable/baseline_manage_search_24"
         android:title="Tìm kiếm" />
-
+    <item
+        android:id="@+id/mChatbot"
+        android:icon="@drawable/custom_chatbot_icon"
+        android:title="Trợ lý AI" />
     <item
         android:id="@+id/mAccount"
         android:icon="@drawable/outline_account_circle_24"
         android:title="Trang cá nhân" />
-
 
 </menu>

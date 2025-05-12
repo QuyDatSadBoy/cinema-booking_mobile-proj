@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Back"
+                android:src="@drawable/icon_back"
+                app:tint="?attr/colorControlNormal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Cài đặt trợ lý AI"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Thông tin cơ bản"
+                android:textColor="@color/colorButton"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tên rạp chiếu phim"
+                        android:textColor="@color/colorTextNormal"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/etCinemaName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:hint="Nhập tên rạp chiếu phim"
+                        android:inputType="text"
+                        android:padding="12dp"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Vị trí"
+                        android:textColor="@color/colorTextNormal"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/etCinemaLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:hint="Nhập địa chỉ rạp chiếu phim"
+                        android:inputType="text"
+                        android:padding="12dp"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Mô tả về rạp chiếu phim"
+                        android:textColor="@color/colorTextNormal"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/etCinemaDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="top"
+                        android:hint="Nhập mô tả về rạp chiếu phim của bạn"
+                        android:inputType="textMultiLine"
+                        android:lines="3"
+                        android:padding="12dp"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Thông tin chi tiết"
+                android:textColor="@color/colorButton"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Giá vé"
+                        android:textColor="@color/colorTextNormal"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/etTicketPrices"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="top"
+                        android:hint="Nhập thông tin về giá vé (ví dụ: Phim 2D: 60.000đ)"
+                        android:inputType="textMultiLine"
+                        android:lines="3"
+                        android:padding="12dp"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Giờ mở cửa"
+                        android:textColor="@color/colorTextNormal"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/etOpeningHours"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="top"
+                        android:hint="Nhập thông tin về giờ mở cửa rạp (ví dụ: Thứ 2 - Thứ 6: 10:00 - 22:00)"
+                        android:inputType="textMultiLine"
+                        android:lines="3"
+                        android:padding="12dp"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Cơ sở vật chất"
+                        android:textColor="@color/colorTextNormal"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/etFacilities"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="top"
+                        android:hint="Nhập thông tin về cơ sở vật chất (ví dụ: Phòng chiếu 2D, 3D, IMAX)"
+                        android:inputType="textMultiLine"
+                        android:lines="3"
+                        android:padding="12dp"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Thông tin phim"
+                android:textColor="@color/colorButton"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Phim đang chiếu"
+                        android:textColor="@color/colorTextNormal"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/etCurrentMovies"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="top"
+                        android:hint="Nhập thông tin về các phim đang chiếu (ví dụ: Tên phim - Thể loại - Thời lượng)"
+                        android:inputType="textMultiLine"
+                        android:lines="4"
+                        android:padding="12dp"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Phim sắp chiếu"
+                        android:textColor="@color/colorTextNormal"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/etUpcomingMovies"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="top"
+                        android:hint="Nhập thông tin về các phim sắp chiếu (ví dụ: Tên phim - Thể loại - Thời lượng)"
+                        android:inputType="textMultiLine"
+                        android:lines="4"
+                        android:padding="12dp"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Khuyến mãi đặc biệt"
+                        android:textColor="@color/colorTextNormal"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/etSpecialPromotions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="top"
+                        android:hint="Nhập thông tin về các khuyến mãi đặc biệt (ví dụ: Thứ 3 vui vẻ: Giảm 30% giá vé)"
+                        android:inputType="textMultiLine"
+                        android:lines="4"
+                        android:padding="12dp"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/btnSaveSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/button_background"
+                android:padding="12dp"
+                android:text="Lưu cài đặt"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
