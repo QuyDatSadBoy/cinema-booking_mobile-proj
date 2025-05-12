@@ -31,6 +31,8 @@ import com.example.cinema_booking_mobile.util.DateFormatter;
 import com.example.cinema_booking_mobile.util.FileUtil;
 import com.example.cinema_booking_mobile.util.NetworkUtil;
 import com.example.cinema_booking_mobile.util.SessionManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -78,7 +80,7 @@ public class PersonaInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_info);
 
-// Khởi tạo
+        // Khởi tạo
         sessionManager = new SessionManager(this);
         userInfoPreferences = getSharedPreferences(PREF_USER_INFO, Context.MODE_PRIVATE);
         calendar = Calendar.getInstance();
@@ -90,6 +92,19 @@ public class PersonaInfoActivity extends AppCompatActivity {
 
         // Cài đặt adapter cho Spinner giới tính
         setupGenderSpinner();
+
+
+        // Kiểm tra xem người dùng đã đăng nhập bằng Google hay chưa
+        GoogleSignInAccount googleAccount = GoogleSignIn.getLastSignedInAccount(this);
+        if (googleAccount != null) {
+            // Sử dụng thông tin từ tài khoản Google nếu có
+            String googlePhotoUrl = googleAccount.getPhotoUrl() != null ?
+                    googleAccount.getPhotoUrl().toString() : null;
+            if (googlePhotoUrl != null && !googlePhotoUrl.isEmpty()) {
+                Picasso.get().load(googlePhotoUrl).into(ivUserAvatar);
+                userProfile.setAvatarUrl(googlePhotoUrl);
+            }
+        }
 
         // Lấy thông tin người dùng
         loadUserProfile();

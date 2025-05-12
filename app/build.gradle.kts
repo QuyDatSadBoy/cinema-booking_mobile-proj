@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -29,6 +30,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
 }
 
 dependencies {
@@ -73,4 +75,18 @@ dependencies {
     // Picasso cho load ảnh
     implementation("com.squareup.picasso:picasso:2.71828")
 
+    // Sử dụng Firebase BoM (Bill of Materials) để quản lý phiên bản
+// Sử dụng Firebase BOM để quản lý phiên bản
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+
+    // Các thư viện Firebase
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-storage")
+
+    // Google Play Services cho đăng nhập Google
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+
 }
+
+

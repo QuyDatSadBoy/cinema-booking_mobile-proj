@@ -23,6 +23,10 @@ import com.example.cinema_booking_mobile.model.UserProfile;
 import com.example.cinema_booking_mobile.util.ApiUtils;
 import com.example.cinema_booking_mobile.util.NetworkUtil;
 import com.example.cinema_booking_mobile.util.SessionManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
@@ -153,26 +157,32 @@ public class AccountFragment extends Fragment {
     }
 
     private void logoutUser() {
-        // Trong tương lai, đây sẽ là nơi để gọi API đăng xuất
-        // Ví dụ:
-        // ApiClient.getApiService().logout().enqueue(new Callback<Response>() { ... });
+        // Đăng xuất khỏi Firebase và Google
+        FirebaseAuth.getInstance().signOut();
 
-        // Xóa thông tin đăng nhập từ SessionManager
-        sessionManager.clearSession();
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(requireContext(),
+                new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.default_web_client_id))
+                        .requestEmail()
+                        .build());
+        googleSignInClient.signOut().addOnCompleteListener(task -> {
+            // Xóa thông tin đăng nhập từ SessionManager
+            sessionManager.clearSession();
 
-        // Xóa thông tin người dùng từ SharedPreferences
-        SharedPreferences.Editor editor = userInfoPreferences.edit();
-        editor.clear();
-        editor.apply();
+            // Xóa thông tin người dùng từ SharedPreferences
+            SharedPreferences.Editor editor = userInfoPreferences.edit();
+            editor.clear();
+            editor.apply();
 
-        // Xác nhận đăng xuất
-        Toast.makeText(requireContext(), "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+            // Xác nhận đăng xuất
+            Toast.makeText(requireContext(), "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
 
-        // Chuyển về màn hình đăng nhập
-        Intent intent = new Intent(requireContext(), LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        requireActivity().finish();
+            // Chuyển về màn hình đăng nhập
+            Intent intent = new Intent(requireContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            requireActivity().finish();
+        });
     }
 
     private void loadUserProfileFromServer() {
