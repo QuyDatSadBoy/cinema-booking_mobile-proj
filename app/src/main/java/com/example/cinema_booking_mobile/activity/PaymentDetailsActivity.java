@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.cinema_booking_mobile.R;
 import com.example.cinema_booking_mobile.adapter.OnItemClickListener;
 import com.example.cinema_booking_mobile.adapter.PaymentMethodsAdapter;
@@ -60,6 +61,7 @@ public class PaymentDetailsActivity extends AppCompatActivity {
     private String tenPhong;
     private Double giaVe;
     private Double tongTien;
+    private String poster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,7 +157,16 @@ public class PaymentDetailsActivity extends AppCompatActivity {
         selectedSeats = (ArrayList<GheDTO>) getIntent().getSerializableExtra("selectedSeats");
         movieName = getIntent().getStringExtra("movieName");
         giaVe =getIntent().getDoubleExtra("giaVe", 0);
+        poster = getIntent().getStringExtra("poster");
 
+        if (poster != null && !poster.isEmpty()) {
+            Glide.with(this)
+                    .load("https://th.bing.com/th/id/R.24f6a65f3371b06c7ae158bfad7f8151?rik=87qYKCQY3eiDCQ&pid=ImgRaw&r=0")
+                    .placeholder(R.drawable.img)
+                    .error(R.drawable.img)
+                    .centerCrop()
+                    .into(imgPoster);
+        }
 
         tvMovieTitle.setText(movieName);
         tvDateTime.setText(" "

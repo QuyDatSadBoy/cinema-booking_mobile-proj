@@ -94,6 +94,7 @@ public class MovieActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MovieActivity.this, BookingTicketActivity.class);
                 intent.putExtra("movieId", position);
+                intent.putExtra("poster", test.getPoster());
                 startActivity(intent);
             }
         });
