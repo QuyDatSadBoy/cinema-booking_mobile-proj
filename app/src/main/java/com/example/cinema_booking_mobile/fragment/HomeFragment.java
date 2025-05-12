@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,22 +15,35 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cinema_booking_mobile.MainActivity;
 import com.example.cinema_booking_mobile.R;
 import com.example.cinema_booking_mobile.activity.MovieActivity;
 import com.example.cinema_booking_mobile.adapter.OnItemClickListener;
+import com.example.cinema_booking_mobile.dto.response.PhimDTO;
 import com.example.cinema_booking_mobile.model.Phim;
 import com.example.cinema_booking_mobile.adapter.PhimDangChieuAdapter;
 import com.example.cinema_booking_mobile.adapter.PhimSapChieuAdapter;
 import com.example.cinema_booking_mobile.others.SpaceItemDecoration;
+import com.example.cinema_booking_mobile.service.IPhimService;
+import com.example.cinema_booking_mobile.util.ApiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements
         OnItemClickListener.PhimSapChieuListener,
         OnItemClickListener.PhimDangChieuListener {
     RecyclerView phimSapChieu, phimDangChieu;
+    PhimSapChieuAdapter phimSapChieuAdapter;
+    PhimDangChieuAdapter phimDangChieuAdapter;
+    private IPhimService iPhimService;
+    private List<PhimDTO> dsPhim = new ArrayList<>();
+    List<Phim> dsPhimDangChieu = new ArrayList<>();
+    List<Phim> dsPhimSapChieu = new ArrayList<>();
 
     @Nullable
     @Override
@@ -47,44 +59,20 @@ public class HomeFragment extends Fragment implements
         phimSapChieu = view.findViewById(R.id.phimSapChieu);
         phimDangChieu = view.findViewById(R.id.phimDangChieu);
 
-        List<Phim> phimList = new ArrayList<>();
-        Phim phim = new Phim(
-                1,
-                "Cuon theo chieu gio",
-                "Lang man",
-                120,
-                "Tieng Anh",
-                "No info",
-                "no Info",
-                "",
-                String.valueOf(R.drawable.poster),
-                "",
-                2023,
-                "No info",
-                "No info",
-                0f,
-                "Sap chieu");
-        for(int i = 0; i < 5; i++) {
-            phimList.add(phim);
-        }
-
-        PhimSapChieuAdapter phimSapChieuAdapter = new PhimSapChieuAdapter(phimList);
+        phimSapChieuAdapter = new PhimSapChieuAdapter(dsPhimSapChieu);
         phimSapChieuAdapter.setPhimSapChieuListener(this);
         phimSapChieu.setAdapter(phimSapChieuAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        phimSapChieu.setLayoutManager(linearLayoutManager);
+        phimSapChieu.setLayoutManager(new LinearLayoutManager(
+                getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
-        PhimDangChieuAdapter phimDangChieuAdapter = new PhimDangChieuAdapter(phimList);
+        phimDangChieuAdapter = new PhimDangChieuAdapter(dsPhimDangChieu);
         phimDangChieuAdapter.setPhimDangChieuListener(this);
         phimDangChieu.setAdapter(phimDangChieuAdapter);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
-//        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        phimDangChieu.setLayoutManager(gridLayoutManager);
+        phimDangChieu.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         phimDangChieu.addItemDecoration(new SpaceItemDecoration(35));
 
         LinearSnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(phimSapChieu);
-
         phimSapChieu.smoothScrollToPosition(1);
         phimSapChieu.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -134,19 +122,59 @@ public class HomeFragment extends Fragment implements
                 }
             }
         });
+
+        iPhimService = ApiUtils.getPhimService();
+        iPhimService.getAllPhim().enqueue(new Callback<List<PhimDTO>>() {
+            @Override
+            public void onResponse(Call<List<PhimDTO>> call, Response<List<PhimDTO>> response) {
+                if (response.isSuccessful()) {
+                    dsPhim = response.body();
+                    dsPhimDangChieu = dsPhim.stream().map(phimDTO ->
+                                    new Phim(
+                                            phimDTO.getId(), phimDTO.getTen(), phimDTO.getTheLoai(), phimDTO.getDoDai(),
+                                            phimDTO.getNgonNgu(), phimDTO.getDaoDien(),phimDTO.getDienVien(),
+                                            phimDTO.getMoTa(), phimDTO.getPoster(), phimDTO.getTrailer(),
+                                            phimDTO.getNamSx(), phimDTO.getHangSx(), phimDTO.getDoTuoi(),
+                                            phimDTO.getDanhGia(), phimDTO.getTrangThai()))
+                            .filter(phim -> phim.getTrangThai().equalsIgnoreCase("Đang chiếu"))
+                            .collect(Collectors.toList());
+                    dsPhimSapChieu = dsPhim.stream().map(phimDTO ->
+                                    new Phim(
+                                            phimDTO.getId(), phimDTO.getTen(), phimDTO.getTheLoai(), phimDTO.getDoDai(),
+                                            phimDTO.getNgonNgu(), phimDTO.getDaoDien(),phimDTO.getDienVien(),
+                                            phimDTO.getMoTa(), phimDTO.getPoster(), phimDTO.getTrailer(),
+                                            phimDTO.getNamSx(), phimDTO.getHangSx(), phimDTO.getDoTuoi(),
+                                            phimDTO.getDanhGia(), phimDTO.getTrangThai()))
+                            .filter(phim -> phim.getTrangThai().equalsIgnoreCase("Sắp chiếu"))
+                            .collect(Collectors.toList());
+
+                    phimDangChieuAdapter.updateData(dsPhimDangChieu);
+                    phimSapChieuAdapter.updateData(dsPhimSapChieu);
+
+                    System.out.println("Thành công: ");
+                } else {
+                    System.out.println("Thất bại: " + response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PhimDTO>> call, Throwable t) {
+                System.out.println("Lỗi: " + t.getMessage());
+            }
+        });
     }
 
     @Override
     public void onPhimSapChieuClick(int position) {
         Intent intent = new Intent(getActivity(), MovieActivity.class);
-        intent.putExtra("movieId", position);
+        intent.putExtra("movieId", dsPhimSapChieu.get(position).getId());
         startActivity(intent);
     }
 
     @Override
     public void onPhimDangChieuClick(int position) {
         Intent intent = new Intent(getActivity(), MovieActivity.class);
-        intent.putExtra("movieId", position);
+        intent.putExtra("movieId", dsPhimDangChieu.get(position).getId());
         startActivity(intent);
     }
 }
