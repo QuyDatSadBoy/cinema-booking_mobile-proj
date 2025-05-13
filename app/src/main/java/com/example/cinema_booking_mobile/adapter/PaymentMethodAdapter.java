@@ -44,6 +44,7 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
         holder.tvPaymentName.setText(paymentMethod.getName());
         holder.imgPaymentIcon.setImageResource(paymentMethod.getLogoResId());
         holder.tvPaymentDetail.setText(paymentMethod.getPhoneNumber());
+        holder.radioButton.setVisibility(View.GONE);
 
         holder.itemView.setOnClickListener(v -> {
             int prevSelectedPos = selectedPosition;
@@ -66,11 +67,14 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgPaymentIcon;
         TextView tvPaymentName, tvPaymentDetail;
+        RadioButton radioButton;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             imgPaymentIcon = itemView.findViewById(R.id.imgPaymentIcon);
             tvPaymentName = itemView.findViewById(R.id.tvPaymentName);
             tvPaymentDetail = itemView.findViewById(R.id.tvPaymentDetail);
+            radioButton = itemView.findViewById(R.id.radioPayment);
         }
     }
     public PaymentMethod getSelectedPaymentMethod() {
