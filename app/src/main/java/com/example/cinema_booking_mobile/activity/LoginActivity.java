@@ -186,8 +186,20 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         }
 
+        // Thêm kiểm tra định dạng email
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            etEmail.setError("Email không hợp lệ");
+            return false;
+        }
+
         if (TextUtils.isEmpty(password)) {
             etPassword.setError("Vui lòng nhập mật khẩu");
+            return false;
+        }
+
+        // Thêm kiểm tra độ dài mật khẩu
+        if (password.length() < 6) {
+            etPassword.setError("Mật khẩu phải có ít nhất 6 ký tự");
             return false;
         }
 

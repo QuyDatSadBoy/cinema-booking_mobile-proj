@@ -5,7 +5,7 @@
     <string name="login_title">Xin chào</string>
     <string name="login_subtitle">Đăng nhập bằng tài khoản của bạn</string>
     <string name="email_address">Địa chỉ email</string>
-    <string name="email_hint">helloteja@gmail.com</string>
+    <string name="email_hint">quydat@gmail.com</string>
     <string name="password">Mật khẩu</string>
     <string name="password_hint">••••••••••••</string>
     <string name="toggle_password_visibility">Hiển thị/Ẩn mật khẩu</string>
@@ -22,7 +22,7 @@
     <string name="register_title">Đăng ký</string>
     <string name="create_account_title">Tạo tài khoản của bạn</string>
     <string name="name_label">Tên</string>
-    <string name="name_hint">ex: jon smith</string>
+    <string name="name_hint">ex: Quý Đạt</string>
     <string name="confirm_password">Gõ lại mật khẩu</string>
     <string name="agree_with">Đồng ý</string>
     <string name="terms_conditions">điều khoản &amp; chính sách</string>
