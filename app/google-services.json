@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "174768141736",
+    "project_id": "android-cinema-4bbb9",
+    "storage_bucket": "android-cinema-4bbb9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174768141736:android:da21114ccc246d5853999d",
+        "android_client_info": {
+          "package_name": "com.example.cinema_booking_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "174768141736-4g5p7v9o32phs5evef4nbihr02j0n8ll.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cinema_booking_mobile",
+            "certificate_hash": "c8ecae46b64984b435198ece3cd7259d32710e7a"
+          }
+        },
+        {
+          "client_id": "174768141736-vg43g6h5due02cotk3npb51tapl66abp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cinema_booking_mobile",
+            "certificate_hash": "6af0e81ce3e753ffdb57a7b05e1d2a1d0f0a38ec"
+          }
+        },
+        {
+          "client_id": "174768141736-g14t5pf22svmuqgsrqb9a0jp0jlrv0dq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApiwyqqLtRiX6vKwe4XfxWuw6LREdNEEk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "174768141736-g14t5pf22svmuqgsrqb9a0jp0jlrv0dq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -13,7 +13,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cinema_booking_mobile.R;
+import com.example.cinema_booking_mobile.dto.response.PhimDTO;
 import com.example.cinema_booking_mobile.model.Phim;
+import com.example.cinema_booking_mobile.service.IPhimService;
+import com.example.cinema_booking_mobile.util.ApiUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MovieActivity extends AppCompatActivity {
     WebView trailer;
@@ -26,6 +33,8 @@ public class MovieActivity extends AppCompatActivity {
     TextView daoDien;
     TextView dienVien;
     Button datVe;
+    private IPhimService iPhimService;
+    private Phim phim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,55 +54,63 @@ public class MovieActivity extends AppCompatActivity {
 
         Integer position = getIntent().getIntExtra("movieId", 0);
 
-        // Get movie with id transferred
+        iPhimService = ApiUtils.getPhimService();
+        iPhimService.getPhim(position).enqueue(new Callback<PhimDTO>() {
+            @Override
+            public void onResponse(Call<PhimDTO> call, Response<PhimDTO> response) {
+                if (response.isSuccessful()) {
+                    PhimDTO phimDTO = response.body();
+                    phim = new Phim(
+                            phimDTO.getId(), phimDTO.getTen(), phimDTO.getTheLoai(), phimDTO.getDoDai(),
+                            phimDTO.getNgonNgu(), phimDTO.getDaoDien(),phimDTO.getDienVien(),
+                            phimDTO.getMoTa(), phimDTO.getPoster(), phimDTO.getTrailer(),
+                            phimDTO.getNamSx(), phimDTO.getHangSx(), phimDTO.getDoTuoi(),
+                            phimDTO.getDanhGia(), phimDTO.getTrangThai());
 
-        Phim test = new Phim(
-                1,
-                "Cuon theo chieu gio",
-                "Lang man",
-                120,
-                "Tieng Anh",
-                "No info",
-                "No info",
-                "Cuốn theo chiều gió là một bộ phim sử thi lãng mạn lấy bối cảnh thời Nội chiến Hoa Kỳ và thời kỳ Tái thiết. Phim xoay quanh cuộc đời của Scarlett O'Hara, một tiểu thư miền Nam kiêu kỳ và mạnh mẽ, khi cô phải đối mặt với mất mát, tình yêu, chiến tranh và sự thay đổi của thời cuộc. Với mối quan hệ phức tạp giữa Scarlett và Rhett Butler, bộ phim là bản anh hùng ca về sự kiên cường, đam mê và bi kịch cá nhân giữa những biến động lịch sử.",
-                String.valueOf(R.drawable.poster),
-                "https://www.youtube.com/watch?v=n9xhJrPXop4",
-                2023,
-                "No info",
-                "13+",
-                8.7f,
-                "Sap chieu");
+                    WebSettings webSettings = trailer.getSettings();
+                    webSettings.setJavaScriptEnabled(true);
+                    webSettings.setAllowContentAccess(true);
+                    webSettings.setAllowFileAccess(true);
+                    webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+                    String html =
+                            "<html><body style=\"margin: 0; padding: 0;\">" +
+                            "<iframe width=\"100%\" height=\"100%\" " +
+                            "src=\"" + phim.getTrailer() + "?rel=0&showinfo=0&autoplay=1&controls=0\" " +
+                            "frameborder=\"0\" allowfullscreen></iframe>" +
+                            "</body></html>";
 
+                    trailer.setWebViewClient(new WebViewClient());
+                    trailer.setWebChromeClient(new WebChromeClient());
+                    trailer.loadDataWithBaseURL(
+                            null, html, "text/html", "utf-8", null);
 
-        WebSettings webSettings = trailer.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setAllowContentAccess(true);
-        webSettings.setAllowFileAccess(true);
-        webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        String html = "<html><body style=\"margin: 0; padding: 0;\">" +
-                "<iframe width=\"100%\" height=\"100%\" " +
-                "src=\"https://www.youtube.com/embed/n9xhJrPXop4?rel=0&showinfo=0&autoplay=1&controls=0\" " +
-                "frameborder=\"0\" allowfullscreen></iframe>" +
-                "</body></html>";
+                    tenVaDanhGia.setText(phim.getTen() + " (" + phim.getDanhGia() + "/10)");
+                    moTa.setText(phim.getMoTa());
+                    doTuoi.setText(phim.getDoTuoi());
+                    theLoai.setText(phim.getTheLoai());
+                    ngonNgu.setText(phim.getNgonNgu());
+                    thoiLuong.setText(phim.getDoDai() + " phút");
+                    daoDien.setText(phim.getDaoDien());
+                    dienVien.setText(phim.getDienVien());
 
-        trailer.setWebViewClient(new WebViewClient());
-        trailer.setWebChromeClient(new WebChromeClient());
-        trailer.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
+                    System.out.println("Thành công: ");
+                } else {
+                    System.out.println("Thất bại: " + response.errorBody());
+                }
+            }
 
-        tenVaDanhGia.setText(test.getTen() + " (" + test.getDanhGia() + "/10)");
-        moTa.setText(test.getMoTa());
-        doTuoi.setText(test.getDoTuoi());
-        theLoai.setText(test.getTheLoai());
-        ngonNgu.setText(test.getNgonNgu());
-        thoiLuong.setText(test.getDoDai() + " phút");
-        daoDien.setText(test.getDaoDien());
-        dienVien.setText("Clark Gable, Vivien Leigh, Leslie Howard, Olivia de Havilland, Hattie McDaniel, Butterfly McQueen, Thomas Mitchell, Barbara O'Neil, Evelyn Keyes, Ann Rutherford, Ona Munson, Harry Davenport, Laura Hope Crews, Rand Brooks.");
+            @Override
+            public void onFailure(Call<PhimDTO> call, Throwable t) {
+                System.out.println("Lỗi: " + t.getMessage());
+            }
+        });
 
         datVe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MovieActivity.this, BookingTicketActivity.class);
-                intent.putExtra("movieId", position);
+                intent.putExtra("movieId", phim.getId());
+                intent.putExtra("poster", phim.getPoster());
                 startActivity(intent);
             }
         });

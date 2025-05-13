@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Background circle -->
+    <path
+        android:fillColor="#6366f1"
+        android:pathData="M24,2C11.85,2 2,11.85 2,24C2,36.15 11.85,46 24,46C36.15,46 46,36.15 46,24C46,11.85 36.15,2 24,2Z" />
+
+    <!-- Robot head -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M36,18C36,15.79 34.21,14 32,14L16,14C13.79,14 12,15.79 12,18L12,32C12,34.21 13.79,36 16,36L32,36C34.21,36 36,34.21 36,32L36,18Z" />
+
+    <!-- Robot eyes -->
+    <path
+        android:fillColor="#6366f1"
+        android:pathData="M18,17C15.79,17 14,18.79 14,21C14,23.21 15.79,25 18,25C20.21,25 22,23.21 22,21C22,18.79 20.21,17 18,17Z" />
+    <path
+        android:fillColor="#6366f1"
+        android:pathData="M30,17C27.79,17 26,18.79 26,21C26,23.21 27.79,25 30,25C32.21,25 34,23.21 34,21C34,18.79 32.21,17 30,17Z" />
+
+    <!-- Robot antenna -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M24,5C22.9,5 22,5.9 22,7C22,8.1 22.9,9 24,9C25.1,9 26,8.1 26,7C26,5.9 25.1,5 24,5Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M23,7L23,11L25,11L25,7Z" />
+
+    <!-- Robot mouth - happy expression -->
+    <path
+        android:strokeColor="#6366f1"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M17,26C20,30 28,30 31,26" />
+
+    <!-- Chat bubbles -->
+    <path
+        android:fillColor="#4ade80"
+        android:pathData="M37,11C34.79,11 33,12.79 33,15C33,17.21 34.79,19 37,19C39.21,19 41,17.21 41,15C41,12.79 39.21,11 37,11Z" />
+    <path
+        android:fillColor="#4ade80"
+        android:pathData="M11,11C8.79,11 7,12.79 7,15C7,17.21 8.79,19 11,19C13.21,19 15,17.21 15,15C15,12.79 13.21,11 11,11Z" />
+
+    <!-- Bottom connector -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M19,32L19,36L29,36L29,32Z" />
+
+    <!-- Message lines -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M17,39L31,39" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M20,42L28,42" />
+</vector>

@@ -11,13 +11,18 @@ public class Phim {
     private String moTa;
     private String poster;
     private String trailer;
-    private Integer namSanXuat;
-    private String hangSanXuat;
+    private Integer namSx;
+    private String hangSx;
     private String doTuoi;
     private Float danhGia = 0f;
     private String trangThai = "Sắp chiếu";
 
-    public Phim(Integer id, String ten, String theLoai, Integer doDai, String ngonNgu, String daoDien, String dienVien, String moTa, String poster, String trailer, Integer namSanXuat, String hangSanXuat, String doTuoi, Float danhGia, String trangThai) {
+    public Phim() {}
+
+    public Phim(
+            Integer id, String ten, String theLoai, Integer doDai, String ngonNgu,
+            String daoDien, String dienVien, String moTa, String poster, String trailer,
+            Integer namSx, String hangSx, String doTuoi, Float danhGia, String trangThai) {
         this.id = id;
         this.ten = ten;
         this.theLoai = theLoai;
@@ -28,8 +33,8 @@ public class Phim {
         this.moTa = moTa;
         this.poster = poster;
         this.trailer = trailer;
-        this.namSanXuat = namSanXuat;
-        this.hangSanXuat = hangSanXuat;
+        this.namSx = namSx;
+        this.hangSx = hangSx;
         this.doTuoi = doTuoi;
         this.danhGia = danhGia;
         this.trangThai = trangThai;
@@ -45,8 +50,8 @@ public class Phim {
     public String getMoTa() { return moTa; }
     public String getPoster() { return poster; }
     public String getTrailer() { return trailer; }
-    public Integer getNamSanXuat() { return namSanXuat; }
-    public String getHangSanXuat() { return hangSanXuat; }
+    public Integer getNamSxt() { return namSx; }
+    public String getHangSx() { return hangSx; }
     public String getDoTuoi() { return doTuoi; }
     public Float getDanhGia() { return danhGia; }
     public String getTrangThai() { return trangThai; }
@@ -61,8 +66,8 @@ public class Phim {
     public void setMoTa(String moTa) { this.moTa = moTa; }
     public void setPoster(String poster) { this.poster = poster; }
     public void setTrailer(String trailer) { this.trailer = trailer; }
-    public void setNamSanXuat(Integer namSanXuat) { this.namSanXuat = namSanXuat; }
-    public void setHangSanXuat(String hangSanXuat) { this.hangSanXuat = hangSanXuat; }
+    public void setNamSx(Integer namSx) { this.namSx = namSx; }
+    public void setHangSx(String hangSx) { this.hangSx = hangSx; }
     public void setDoTuoi(String doTuoi) { this.doTuoi = doTuoi; }
     public void setDanhGia(Float danhGia) { this.danhGia = danhGia; }
     public void setTrangThai(String trangThai) { this.trangThai = trangThai; }
