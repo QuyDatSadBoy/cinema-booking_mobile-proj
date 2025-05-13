@@ -168,7 +168,17 @@ public class PaymentMethodActivity extends AppCompatActivity implements PaymentM
             String accountInfo = editTextAccountInfo.getText().toString().trim();
 
             if (accountInfo.isEmpty()) {
-                editTextAccountInfo.setError("Vui lòng nhập thông tin tài khoản");
+                editTextAccountInfo.setError("Vui lòng nhập số tài khoản");
+                return;
+            }
+
+            if (!accountInfo.matches("\\d+")) {
+                editTextAccountInfo.setError("Số tài khoản chỉ được chứa các chữ số");
+                return;
+            }
+
+            if (accountInfo.length() != 8) {
+                editTextAccountInfo.setError("Số tài khoản phải gồm đúng 8 chữ số");
                 return;
             }
 
