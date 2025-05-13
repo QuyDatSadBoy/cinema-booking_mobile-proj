@@ -87,6 +87,7 @@ public class BookingTicketActivity extends AppCompatActivity {
         timeRecyclerView = findViewById(R.id.timeRecyclerView);
 
         titleText = findViewById(R.id.titleText);
+        titleText.setText(getIntent().getStringExtra("movieName"));
 
         LinearLayout priceSection = findViewById(R.id.priceSection);
         tvTotalPrice = priceSection.getChildAt(0)
@@ -242,17 +243,15 @@ public class BookingTicketActivity extends AppCompatActivity {
         List<DateItem> dateItems = generateNextDays(20);
 
         if (!dateItems.isEmpty()) {
-            dateItems.get(4).setSelected(true);
+            dateItems.get(1).setSelected(true);
         }
-        selectedDate = dateItems.get(4);
+        selectedDate = dateItems.get(1);
         dateAdapter.updateData(dateItems);
-        loadTimeData(movieId, dateItems.get(4).getDate());
+        loadTimeData(movieId, dateItems.get(1).getDate());
         dateRecyclerView.scrollToPosition(1);
     }
 
     private void displaySeatMap(SoDoGheResponse seatMap) {
-
-        titleText.setText(seatMap.getTenPhim());
 
         for (TextView seatView : seatViews.values()) {
             seatView.setBackgroundResource(R.drawable.seat_available);

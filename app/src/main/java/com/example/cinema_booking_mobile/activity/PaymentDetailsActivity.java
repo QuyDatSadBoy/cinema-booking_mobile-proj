@@ -162,7 +162,7 @@ public class PaymentDetailsActivity extends AppCompatActivity {
 
         if (poster != null && !poster.isEmpty()) {
             Glide.with(this)
-                    .load("https://th.bing.com/th/id/R.24f6a65f3371b06c7ae158bfad7f8151?rik=87qYKCQY3eiDCQ&pid=ImgRaw&r=0")
+                    .load(poster)
                     .placeholder(R.drawable.img)
                     .error(R.drawable.img)
                     .centerCrop()

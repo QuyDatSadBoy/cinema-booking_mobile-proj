@@ -20,14 +20,14 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/icon_back"
-            android:contentDescription="Back" />
+            android:contentDescription="Back"
+            app:tint="?attr/colorControlNormal"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Phương thức thanh toán"
-            android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
 

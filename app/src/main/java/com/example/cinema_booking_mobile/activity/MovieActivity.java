@@ -8,6 +8,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,6 +37,8 @@ public class MovieActivity extends AppCompatActivity {
     private IPhimService iPhimService;
     private Phim phim;
 
+    private ImageButton btnBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +54,8 @@ public class MovieActivity extends AppCompatActivity {
         daoDien = findViewById(R.id.daoDien);
         dienVien = findViewById(R.id.dienVien);
         datVe = findViewById(R.id.datVe);
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
 
         Integer position = getIntent().getIntExtra("movieId", 0);
 
@@ -111,6 +116,7 @@ public class MovieActivity extends AppCompatActivity {
                 Intent intent = new Intent(MovieActivity.this, BookingTicketActivity.class);
                 intent.putExtra("movieId", phim.getId());
                 intent.putExtra("poster", phim.getPoster());
+                intent.putExtra("movieName", phim.getTen());
                 startActivity(intent);
             }
         });

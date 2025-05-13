@@ -12,6 +12,15 @@
         android:background="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/icon_back"
+            android:contentDescription="Back"
+            app:tint="?attr/colorControlNormal"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
