@@ -1,5 +1,7 @@
 package com.example.cinema_booking_mobile.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +12,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.cinema_booking_mobile.R;
 import com.example.cinema_booking_mobile.model.Ticket;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder> {
@@ -39,6 +44,16 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         holder.tvCinema.setText("Rạp: " + ticket.getCinema());
         holder.tvDate.setText("Ngày: " + ticket.getDate());
         holder.tvSeat.setText("Ghế: " + ticket.getSeatNumbers());
+        new Thread(() -> {
+            try {
+                InputStream in = new URL(ticket.getPosterUrl() + "lazy=load").openStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(in);
+                holder.imgMovie.post(() -> holder.imgMovie.setImageBitmap(bitmap));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+
 
         if (ticket.getStatus().equals("Đã thanh toán")) {
             holder.btnStatus.setBackgroundResource(R.drawable.bg_age);

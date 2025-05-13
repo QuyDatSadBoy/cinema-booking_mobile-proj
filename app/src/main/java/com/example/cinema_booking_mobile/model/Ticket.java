@@ -23,12 +23,8 @@ public class Ticket {
 
     @SerializedName("tenGhe")
     private String seatNumbers;
-
-    // Thêm các trường khác nếu cần
-    private String posterUrl; // Không có trong API, có thể giữ lại để dùng cho hiển thị
-
-    // Constructor, getters và setters
-
+    @SerializedName("poster")
+    private String posterUrl;
     public Ticket(int id, String ticketCode, String movieTitle, String cinema, String date, String seatNumbers, String status, String posterUrl) {
         this.id = id;
         this.ticketCode = ticketCode;
@@ -40,7 +36,6 @@ public class Ticket {
         this.posterUrl = posterUrl;
     }
 
-    // No-args constructor cần thiết cho Gson
     public Ticket() {
     }
 
