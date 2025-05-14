@@ -1,5 +1,6 @@
 package com.example.cinema_booking_mobile.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -105,7 +107,17 @@ public class BookingTicketActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (selectedSeats.isEmpty()) {
-                    Toast.makeText(BookingTicketActivity.this, "Vui lòng chọn ghế", Toast.LENGTH_SHORT).show();
+                    new AlertDialog.Builder(BookingTicketActivity.this)
+                            .setTitle("Chưa chọn ghế")
+                            .setMessage("Vui lòng chọn ghế")
+                            .setIcon(R.drawable.ic_calendar)
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .setCancelable(false)
+                            .show();
                     return;
                 }
 
@@ -243,12 +255,12 @@ public class BookingTicketActivity extends AppCompatActivity {
         List<DateItem> dateItems = generateNextDays(20);
 
         if (!dateItems.isEmpty()) {
-            dateItems.get(1).setSelected(true);
+            dateItems.get(0).setSelected(true);
         }
-        selectedDate = dateItems.get(1);
+        selectedDate = dateItems.get(0);
         dateAdapter.updateData(dateItems);
-        loadTimeData(movieId, dateItems.get(1).getDate());
-        dateRecyclerView.scrollToPosition(1);
+        loadTimeData(movieId, dateItems.get(0).getDate());
+        dateRecyclerView.scrollToPosition(0);
     }
 
     private void displaySeatMap(SoDoGheResponse seatMap) {
@@ -434,7 +446,6 @@ public class BookingTicketActivity extends AppCompatActivity {
     private void updatePriceInfo() {
         if (selectedSeats.isEmpty() || currentSeatMap == null) {
             tvTotalPrice.setText("0d");
-            btnBuy.setEnabled(false);
         } else {
             double totalPrice = 0;
             for (GheDTO seat : selectedSeats) {
@@ -452,7 +463,7 @@ public class BookingTicketActivity extends AppCompatActivity {
         List<DateItem> dateItems = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
 
-        SimpleDateFormat dayNameFormat = new SimpleDateFormat("EEE", Locale.getDefault());
+        SimpleDateFormat dayNameFormat = new SimpleDateFormat("EEE", new Locale("vi"));
         SimpleDateFormat dayNumberFormat = new SimpleDateFormat("d", Locale.getDefault());
 
         for (int i = 0; i < count; i++) {

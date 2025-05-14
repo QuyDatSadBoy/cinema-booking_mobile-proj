@@ -53,6 +53,7 @@ public class PaymentDetailsActivity extends AppCompatActivity {
     private PaymentMethod selectedPaymentMethod;
     private IPaymentService iPaymentService;
     private SessionManager sessionManager;
+    List<PaymentMethod> paymentMethods;
 
     private List<GheDTO> selectedSeats = new ArrayList<>();
     private Integer movieId;
@@ -95,7 +96,7 @@ public class PaymentDetailsActivity extends AppCompatActivity {
     }
 
     private void setupPaymentMethodsAdapter() {
-        List<PaymentMethod> paymentMethods = new ArrayList<>();
+        paymentMethods = new ArrayList<>();
 
         if (!NetworkUtil.isNetworkAvailable(this)) {
             Toast.makeText(this, "Không có kết nối mạng", Toast.LENGTH_SHORT).show();
@@ -195,6 +196,24 @@ public class PaymentDetailsActivity extends AppCompatActivity {
     }
 
     private void processPayment() {
+        if(paymentMethods.isEmpty()){
+            new AlertDialog.Builder(PaymentDetailsActivity.this)
+                    .setTitle("Chưa có phuơng thức thanh toán")
+                    .setMessage("Vui lòng thêm phương thức thanh toán")
+                    .setIcon(R.drawable.ic_calendar)
+                    .setPositiveButton("thêm", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(PaymentDetailsActivity.this, PaymentMethodActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    })
+                    .setCancelable(false)
+                    .show();
+            return;
+        }
+
         List<Integer> lichChieuGheId = new ArrayList<>();
         for (GheDTO ghe: selectedSeats){
             lichChieuGheId.add(ghe.getLichChieuGheId());

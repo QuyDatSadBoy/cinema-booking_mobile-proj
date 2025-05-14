@@ -10,7 +10,7 @@
         android:title="Tìm kiếm" />
     <item
         android:id="@+id/mChatbot"
-        android:icon="@drawable/custom_chatbot_icon"
+        android:icon="@drawable/icon_ai"
         android:title="Trợ lý AI" />
     <item
         android:id="@+id/mAccount"

@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
         fragments = new ArrayList<>();
         fragments.add(new HomeFragment());
         fragments.add(new SearchFragment());
-        fragments.add(new AccountFragment());
         fragments.add(new ChatbotFragment());
+        fragments.add(new AccountFragment());
 
         fragmentManager = getSupportFragmentManager();
         mainFragmentAdapter = new MainFragmentAdapter(
@@ -67,11 +67,11 @@ public class MainActivity extends AppCompatActivity {
                         bottomNavigationView.getMenu().findItem(R.id.mSearch).setChecked(true);
                         break;
                     }
-                    case 2: {
+                    case 3: {
                         bottomNavigationView.getMenu().findItem(R.id.mAccount).setChecked(true);
                         break;
                     }
-                    case 3: {
+                    case 2: {
                         bottomNavigationView.getMenu().findItem(R.id.mChatbot).setChecked(true);
                         break;
                     }
@@ -96,11 +96,11 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case "Trang cá nhân": {
-                        viewPager.setCurrentItem(2);
+                        viewPager.setCurrentItem(3);
                         break;
                     }
                     case "Trợ lý AI": {
-                        viewPager.setCurrentItem(3);
+                        viewPager.setCurrentItem(2);
                         break;
                     }
                 }
