@@ -41,6 +41,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
 
         holder.tvMovieTitle.setText(ticket.getMovieTitle());
         holder.btnStatus.setText(ticket.getStatus());
+        holder.tvMaVe.setText("Mã vé: " + ticket.getTicketCode());
         holder.tvCinema.setText("Rạp: " + ticket.getCinema());
         holder.tvDate.setText("Ngày: " + ticket.getDate());
         holder.tvSeat.setText("Ghế: " + ticket.getSeatNumbers());
@@ -69,12 +70,13 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgMovie;
-        TextView tvMovieTitle, tvCinema, tvDate, tvSeat;
+        TextView tvMaVe, tvMovieTitle, tvCinema, tvDate, tvSeat;
         Button btnStatus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgMovie = itemView.findViewById(R.id.imgMovie);
+            tvMaVe = itemView.findViewById(R.id.tvMaVe);
             tvMovieTitle = itemView.findViewById(R.id.tvMovieTitle);
             btnStatus = itemView.findViewById(R.id.btnStatus);
             tvCinema = itemView.findViewById(R.id.tvCinema);
