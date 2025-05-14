@@ -35,7 +35,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-public class PaymentMethodActivity extends AppCompatActivity implements PaymentMethodAdapter.OnPaymentMethodClickListener {
+public class PaymentMethodActivity extends AppCompatActivity{
 
     private RecyclerView recyclerViewPaymentMethods;
     private PaymentMethodAdapter adapter;
@@ -66,7 +66,7 @@ public class PaymentMethodActivity extends AppCompatActivity implements PaymentM
         initData();
 
         recyclerViewPaymentMethods.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new PaymentMethodAdapter(paymentMethods, this);
+        adapter = new PaymentMethodAdapter(paymentMethods);
         recyclerViewPaymentMethods.setAdapter(adapter);
     }
     private void initData() {
@@ -248,11 +248,5 @@ public class PaymentMethodActivity extends AppCompatActivity implements PaymentM
             default:
                 return 1;
         }
-    }
-
-
-    @Override
-    public void onPaymentMethodClick(PaymentMethod paymentMethod, int position) {
-        Toast.makeText(this, "Đã chọn: " + paymentMethod.getName(), Toast.LENGTH_SHORT).show();
     }
 }

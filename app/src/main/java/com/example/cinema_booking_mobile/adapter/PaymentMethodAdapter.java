@@ -18,16 +18,10 @@ import java.util.List;
 public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdapter.ViewHolder> {
 
     private List<PaymentMethod> paymentMethods;
-    private OnPaymentMethodClickListener listener;
     private int selectedPosition = -1;
 
-    public interface OnPaymentMethodClickListener {
-        void onPaymentMethodClick(PaymentMethod paymentMethod, int position);
-    }
-
-    public PaymentMethodAdapter(List<PaymentMethod> paymentMethods, OnPaymentMethodClickListener listener) {
+    public PaymentMethodAdapter(List<PaymentMethod> paymentMethods) {
         this.paymentMethods = paymentMethods;
-        this.listener = listener;
     }
 
     @NonNull
@@ -46,17 +40,6 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
         holder.tvPaymentDetail.setText(paymentMethod.getPhoneNumber());
         holder.radioButton.setVisibility(View.GONE);
 
-        holder.itemView.setOnClickListener(v -> {
-            int prevSelectedPos = selectedPosition;
-            selectedPosition = holder.getAdapterPosition();
-
-            notifyItemChanged(prevSelectedPos);
-            notifyItemChanged(selectedPosition);
-
-            if (listener != null) {
-                listener.onPaymentMethodClick(paymentMethod, position);
-            }
-        });
     }
 
     @Override
@@ -76,11 +59,5 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
             tvPaymentDetail = itemView.findViewById(R.id.tvPaymentDetail);
             radioButton = itemView.findViewById(R.id.radioPayment);
         }
-    }
-    public PaymentMethod getSelectedPaymentMethod() {
-        if (selectedPosition != -1 && selectedPosition < paymentMethods.size()) {
-            return paymentMethods.get(selectedPosition);
-        }
-        return null;
     }
 }
