@@ -51,8 +51,6 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
         holder.tvDayName.setSelected(item.isSelected());
         holder.tvDayNumber.setSelected(item.isSelected());
         holder.day.setSelected(item.isSelected());
-        holder.tvDayName.setAlpha(item.isAvailable() ? 1.0f : 0.5f);
-        holder.tvDayNumber.setAlpha(item.isAvailable() ? 1.0f : 0.5f);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

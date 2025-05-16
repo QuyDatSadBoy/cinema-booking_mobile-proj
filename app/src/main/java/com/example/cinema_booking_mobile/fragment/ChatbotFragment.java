@@ -165,10 +165,10 @@ public class ChatbotFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedModel = models.get(position);
-                // Hiển thị thông báo nhỏ khi chọn model
-                Toast.makeText(requireContext(),
-                        "Đã chọn model: " + selectedModel.getName(),
-                        Toast.LENGTH_SHORT).show();
+//                // Hiển thị thông báo nhỏ khi chọn model
+//                Toast.makeText(requireContext(),
+//                        "Đã chọn model: " + selectedModel.getName(),
+//                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
