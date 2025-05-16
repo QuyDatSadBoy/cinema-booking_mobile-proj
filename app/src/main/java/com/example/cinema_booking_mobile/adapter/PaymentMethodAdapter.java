@@ -19,9 +19,18 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
 
     private List<PaymentMethod> paymentMethods;
     private int selectedPosition = -1;
+    private OnPaymentMethodClickListener listener;
+
+    public interface OnPaymentMethodClickListener {
+        void onPaymentMethodClick(int position);
+    }
 
     public PaymentMethodAdapter(List<PaymentMethod> paymentMethods) {
         this.paymentMethods = paymentMethods;
+    }
+
+    public void setOnPaymentMethodClickListener(OnPaymentMethodClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -39,6 +48,11 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
         holder.imgPaymentIcon.setImageResource(paymentMethod.getLogoResId());
         holder.tvPaymentDetail.setText(paymentMethod.getPhoneNumber());
         holder.radioButton.setVisibility(View.GONE);
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onPaymentMethodClick(position);
+            }
+        });
 
     }
 
