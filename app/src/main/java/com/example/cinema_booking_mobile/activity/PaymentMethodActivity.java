@@ -5,6 +5,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,7 +38,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-public class PaymentMethodActivity extends AppCompatActivity{
+public class PaymentMethodActivity extends AppCompatActivity implements PaymentMethodAdapter.OnPaymentMethodClickListener {
 
     private RecyclerView recyclerViewPaymentMethods;
     private PaymentMethodAdapter adapter;
@@ -67,8 +70,10 @@ public class PaymentMethodActivity extends AppCompatActivity{
 
         recyclerViewPaymentMethods.setLayoutManager(new LinearLayoutManager(this));
         adapter = new PaymentMethodAdapter(paymentMethods);
+        adapter.setOnPaymentMethodClickListener(this);
         recyclerViewPaymentMethods.setAdapter(adapter);
     }
+
     private void initData() {
         paymentMethods = new ArrayList<>();
 
@@ -103,28 +108,12 @@ public class PaymentMethodActivity extends AppCompatActivity{
         );
     }
 
-    private int getIconMethod(String name) {
-        switch (name) {
-            case "Momo":
-                return R.drawable.ic_momo;
-            case "MBBank":
-                return R.drawable.ic_mb_bank;
-            case "ZaloPay":
-                return R.drawable.ic_zalo_pay;
-            case "Techcombank":
-                return R.drawable.ic_techcombank;
-            case "BIDV":
-                return R.drawable.ic_bidv;
-            case "Vietcombank":
-                return R.drawable.ic_vietcombank;
-            case "VietinBank":
-                return R.drawable.ic_vietinbank;
-            case "Agribank":
-                return R.drawable.ic_agribank;
-            default:
-                return R.drawable.ic_momo;
-        }
+    @Override
+    public void onPaymentMethodClick(int position) {
+        // Xử lý sự kiện click ở đây
+        showEditPaymentDialog(position);
     }
+
 
     private void showAddPaymentDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -227,6 +216,102 @@ public class PaymentMethodActivity extends AppCompatActivity{
         });
     }
 
+    private void showEditPaymentDialog(int position) {
+        PaymentMethod paymentMethod = paymentMethods.get(position);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_edit_payment_method, null);
+        builder.setView(dialogView);
+
+        TextView textViewPaymentName = dialogView.findViewById(R.id.textViewPaymentName);
+        EditText editTextAccountNumber = dialogView.findViewById(R.id.editTextAccountNumber);
+        RadioGroup radioGroupStatus = dialogView.findViewById(R.id.radioGroupStatus);
+        RadioButton radioEnable = dialogView.findViewById(R.id.radioEnable);
+        RadioButton radioDisable = dialogView.findViewById(R.id.radioDisable);
+        Button btnCancel = dialogView.findViewById(R.id.btnCancel);
+        Button btnSave = dialogView.findViewById(R.id.btnSave);
+
+        textViewPaymentName.setText(paymentMethod.getName());
+        editTextAccountNumber.setText(paymentMethod.getPhoneNumber());
+
+        String currentStatus = paymentMethod.getStatus() != null ? paymentMethod.getStatus() : "ENABLE";
+        if (currentStatus.equals("ENABLE")) {
+            radioEnable.setChecked(true);
+        } else {
+            radioDisable.setChecked(true);
+        }
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        btnCancel.setOnClickListener(view -> dialog.dismiss());
+
+        btnSave.setOnClickListener(view -> {
+            String accountNumber = editTextAccountNumber.getText().toString().trim();
+            String status = radioEnable.isChecked() ? "ENABLE" : "DISABLE";
+
+            if (accountNumber.isEmpty()) {
+                editTextAccountNumber.setError("Vui lòng nhập số tài khoản");
+                return;
+            }
+
+            if (!accountNumber.matches("\\d+")) {
+                editTextAccountNumber.setError("Số tài khoản chỉ được chứa các chữ số");
+                return;
+            }
+
+            if (accountNumber.length() != 8) {
+                editTextAccountNumber.setError("Số tài khoản phải gồm đúng 8 chữ số");
+                return;
+            }
+
+            updatePaymentMethod(position, paymentMethod.getId(), accountNumber, status, dialog);
+        });
+    }
+
+    private void updatePaymentMethod(int position, int paymentMethodId, String accountNumber, String status, AlertDialog dialog) {
+        PaymentMethod currentMethod = paymentMethods.get(position);
+
+        PaymentMethodDTO paymentMethodDTO = new PaymentMethodDTO();
+        paymentMethodDTO.setId(paymentMethodId);
+        paymentMethodDTO.setTen(currentMethod.getName());
+        paymentMethodDTO.setSoTaiKhoan(accountNumber);
+        paymentMethodDTO.setStatus(status);
+
+        iPaymentService.updatePaymentMethod(
+                sessionManager.getAuthorizationHeader(),
+                paymentMethodDTO
+        ).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.isSuccessful() && response.body() != null && response.body()) {
+                    if (status.equals("DISABLE")) {
+                        paymentMethods.remove(position);
+                        adapter.notifyItemRemoved(position);
+                        Toast.makeText(PaymentMethodActivity.this, "Đã vô hiệu hóa phương thức thanh toán", Toast.LENGTH_SHORT).show();
+                    } else {
+                        PaymentMethod updatedMethod = paymentMethods.get(position);
+                        updatedMethod.setPhoneNumber(accountNumber);
+                        updatedMethod.setStatus(status);
+                        adapter.notifyItemChanged(position);
+                        Toast.makeText(PaymentMethodActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(PaymentMethodActivity.this, "Không thể cập nhật phương thức thanh toán", Toast.LENGTH_SHORT).show();
+                }
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toast.makeText(PaymentMethodActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+    }
+
+
     private int getPaymentMethodId(String paymentMethodName) {
         switch (paymentMethodName) {
             case "Momo":
@@ -249,4 +334,28 @@ public class PaymentMethodActivity extends AppCompatActivity{
                 return 1;
         }
     }
+
+    private int getIconMethod(String name) {
+        switch (name) {
+            case "Momo":
+                return R.drawable.ic_momo;
+            case "MBBank":
+                return R.drawable.ic_mb_bank;
+            case "ZaloPay":
+                return R.drawable.ic_zalo_pay;
+            case "Techcombank":
+                return R.drawable.ic_techcombank;
+            case "BIDV":
+                return R.drawable.ic_bidv;
+            case "Vietcombank":
+                return R.drawable.ic_vietcombank;
+            case "VietinBank":
+                return R.drawable.ic_vietinbank;
+            case "Agribank":
+                return R.drawable.ic_agribank;
+            default:
+                return R.drawable.ic_momo;
+        }
+    }
+
 }

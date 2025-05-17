@@ -32,4 +32,11 @@ public interface IPaymentService {
             @Path("id") int id,
             @Query("stk") String accountNumber
     );
+
+    @POST("payment/update")
+    Call<Boolean> updatePaymentMethod(
+            @Header("Authorization") String authHeader,
+            @Body PaymentMethodDTO paymentMethodDTO
+    );
+
 }
