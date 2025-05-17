@@ -110,16 +110,18 @@ public class PaymentDetailsActivity extends AppCompatActivity {
                             paymentMethods.clear();
                             List<PaymentMethodDTO> paymentMethodDTOS = response.body();
                             for (PaymentMethodDTO paymentMethodDTO:paymentMethodDTOS){
-                               PaymentMethod payment =new PaymentMethod(
-                                        paymentMethodDTO.getId(),
-                                        paymentMethodDTO.getTen(),
-                                        paymentMethodDTO.getSoTaiKhoan(),
-                                        paymentMethodDTO.getTen().equals("Momo") ?  R.drawable.ic_momo :R.drawable.ic_mb_bank);
-                               paymentMethods.add(payment);
-                                Log.d("payment_method", payment.getName());
+                                if(paymentMethodDTO.getStatus().equals("ENABLE")){
+                                   PaymentMethod payment =new PaymentMethod(
+                                            paymentMethodDTO.getId(),
+                                            paymentMethodDTO.getTen(),
+                                            paymentMethodDTO.getSoTaiKhoan(),
+                                            getIconMethod(paymentMethodDTO.getTen()));
+                                   paymentMethods.add(payment);
+                                   Log.d("payment_method", payment.getName());
 
-                                setupPaymentMethodsAdapter(paymentMethods);
+                                }
                             }
+                            setupPaymentMethodsAdapter(paymentMethods);
                         }
                     }
 
@@ -273,5 +275,28 @@ public class PaymentDetailsActivity extends AppCompatActivity {
                                 .show();
                     }
                 });
+    }
+
+    private int getIconMethod(String name) {
+        switch (name) {
+            case "Momo":
+                return R.drawable.ic_momo;
+            case "MBBank":
+                return R.drawable.ic_mb_bank;
+            case "ZaloPay":
+                return R.drawable.ic_zalo_pay;
+            case "Techcombank":
+                return R.drawable.ic_techcombank;
+            case "BIDV":
+                return R.drawable.ic_bidv;
+            case "Vietcombank":
+                return R.drawable.ic_vietcombank;
+            case "VietinBank":
+                return R.drawable.ic_vietinbank;
+            case "Agribank":
+                return R.drawable.ic_agribank;
+            default:
+                return R.drawable.ic_momo;
+        }
     }
 }
