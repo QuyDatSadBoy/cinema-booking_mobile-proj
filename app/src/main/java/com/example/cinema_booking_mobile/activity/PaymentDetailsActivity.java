@@ -120,8 +120,9 @@ public class PaymentDetailsActivity extends AppCompatActivity {
                                    Log.d("payment_method", payment.getName());
 
                                 }
+                                setupPaymentMethodsAdapter(paymentMethods);
                             }
-                            setupPaymentMethodsAdapter(paymentMethods);
+
                         }
                     }
 

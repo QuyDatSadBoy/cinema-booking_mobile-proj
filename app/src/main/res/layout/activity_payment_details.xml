@@ -13,10 +13,6 @@
         android:background="@android:color/white"
         app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
             <ImageButton
                 android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
@@ -25,19 +21,18 @@
                 android:layout_centerVertical="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
-                android:src="@drawable/icon_back" />
+                android:src="@drawable/icon_back"
+                app:tint="?attr/colorControlNormal"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_gravity="center"
                 android:text="Chi tiết thanh toán"
-                android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-
-        </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
@@ -243,7 +238,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvPaymentMethods"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="150dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

@@ -17,7 +17,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiUtils {
-    private static final String PERPLEXITY_API_URL = "https://api.perplexity.ai/";
+//    private5263 static final String PERPLEXITY_API_URL = "https://api.perplexity.ai/";
+    private static final String PERPLEXITY_API_URL = "http://10.21.1.67:8000/";
     private static Retrofit perplexityRetrofit = null;
 
     public static IAuthService getAuthService() {

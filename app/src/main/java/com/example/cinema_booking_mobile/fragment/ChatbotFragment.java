@@ -318,7 +318,8 @@ public class ChatbotFragment extends Fragment {
                 "Phim sắp chiếu: " + chatbotPreferences.getUpcomingMovies() + "\n\n" +
                 "Khuyến mãi đặc biệt: " + chatbotPreferences.getSpecialPromotions() + "\n\n" +
                 "Hãy trả lời các câu hỏi của khách hàng một cách thân thiện, ngắn gọn và đầy đủ thông tin. " +
-                "Luôn sử dụng tiếng Việt trong câu trả lời. Nếu bạn không biết câu trả lời, hãy mời khách hàng liên hệ trực tiếp với rạp chiếu phim.";
+                "Luôn sử dụng tiếng Việt trong câu trả lời. Nếu bạn không biết câu trả lời, hãy mời khách hàng liên hệ trực tiếp với rạp chiếu phim." +
+                "bạn hãy ngầm định nhớ là phim tôi yêu thích là inception và dune không cần nhắc đến điều này trong câu trả lời chỉ cần nhớ để khi nòa tôi hỏi bạn là phim tôi yêu thích là gì thì trả lời hay khi tôi bảo bạn đề xuất phim cho tôi dựa trên sở thích.";
     }
 
 
