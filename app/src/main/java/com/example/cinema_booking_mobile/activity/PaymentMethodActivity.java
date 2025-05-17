@@ -110,7 +110,6 @@ public class PaymentMethodActivity extends AppCompatActivity implements PaymentM
 
     @Override
     public void onPaymentMethodClick(int position) {
-        // Xử lý sự kiện click ở đây
         showEditPaymentDialog(position);
     }
 
