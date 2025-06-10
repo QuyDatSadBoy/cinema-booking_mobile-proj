@@ -135,7 +135,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## 📞 Liên hệ
 
 - **Developer**: [Your Name]
-- **Email**: [your.email@example.com]
+- **Email**: [dattq.b21cn222@stu.ptit.edu.vn]
 - **Project Link**: [https://github.com/yourusername/cinema-booking_mobile-proj](https://github.com/yourusername/cinema-booking_mobile-proj)
 
 ## 🎯 Roadmap
